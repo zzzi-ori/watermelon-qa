@@ -2,7 +2,7 @@
   <div ref="canvas" class=""></div>
 </template>
 <script setup lang="ts">
-import {Engine, Render, Bodies, Composite, World, Runner} from 'matter-js'
+import {Engine, Render, Bodies, Composite, World, Runner, Events} from 'matter-js'
 import {onMounted, ref} from "vue";
 
 const canvas = ref<HTMLElement>()
@@ -24,12 +24,20 @@ onMounted(()=>{
   });
 
   const ground = Bodies.rectangle(width/2, height-60, width, 120, { isStatic: true, render: {fillStyle: '#FFBF36'}});
+  const left = Bodies.rectangle(0, height/2, 1, height, {
+    isStatic: true,
+    render: {fillStyle: '#FFFFFF'}
+  })
+  const right = Bodies.rectangle(width, height/2, 1, height, {
+    isStatic: true,
+    render: {fillStyle: '#FFFFFF'}
+  })
   const line = Bodies.rectangle(width/2, 150, width, 2, {
     isStatic: true,
     isSensor: true,
     render: {fillStyle: '#FFBF36'}
   })
-  Composite.add(engine.world, [line, ground]);
+  Composite.add(engine.world, [line, ground, left, right]);
 
   // run the renderer
   Render.run(render);
@@ -37,20 +45,53 @@ onMounted(()=>{
   // create runner
   const runner = Runner.create();
   Runner.run(runner, engine);
+
+  Events.on(engine, 'collisionStart', (event) => {
+    event.pairs.forEach((collision) => {
+      if (collision.bodyA.label !== collision.bodyB.label) {
+        return
+      }
+      const index = Number(collision.bodyA.label)
+      const nextIndex = String(index + 1)
+
+      // 최고 단계일 경우
+      if (index === 10) {
+        return
+      }
+
+      World.remove(engine.world, [collision.bodyA, collision.bodyB])
+
+      const newCircle = Bodies.circle(
+        collision.collision.supports[0].x,
+        collision.collision.supports[0].y,
+        (index + 1) * 20,
+        {
+          label: nextIndex,
+        }
+      )
+
+      World.add(engine.world, newCircle)
+      }
+    )
+  })
 })
 
-const addBlock = () => {
+const addBlock = (x: number) => {
   const index = Math.floor(Math.random() * 5)
-  const circle = Bodies.circle(300, 50, index * 20)
+  if(!index){
+    return
+  }
+  const circle = Bodies.circle(x, 10, index * 20, {
+    label: String(index),
+  })
   World.add(engine.world, circle)
 }
 
-window.addEventListener('click', ()=>{
-  addBlock()
+window.addEventListener('click', (event)=>{
+  addBlock(event.clientX)
 })
-window.addEventListener('touchstart', ()=>{
-  addBlock()
-});
-
+window.addEventListener('touchstart', (event)=>{
+  addBlock(event.touches[0].clientX)
+})
 
 </script>
