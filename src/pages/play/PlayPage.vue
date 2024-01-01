@@ -1,9 +1,16 @@
 <template>
+  <div class="absolute z-10">
+    <span>score: {{score}}</span>
+    <div class="bg-amber-300">Next</div>
+  </div>
   <div ref="canvas" class=""></div>
 </template>
 <script setup lang="ts">
 import {Engine, Render, Bodies, Composite, World, Runner, Events} from 'matter-js'
 import {onMounted, ref} from "vue";
+import {blocks} from "./setting.ts";
+
+const score = ref(0)
 
 const canvas = ref<HTMLElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
@@ -54,7 +61,9 @@ onMounted(()=>{
       const index = Number(collision.bodyA.label)
       const nextIndex = String(index + 1)
 
-      // 최고 단계일 경우
+      score.value = score.value + (index * 10)
+
+      // todo 최고 단계일 경우 처리
       if (index === 10) {
         return
       }
@@ -77,11 +86,13 @@ onMounted(()=>{
 })
 
 const addBlock = (x: number) => {
-  const index = Math.floor(Math.random() * 5)
+  const index = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
   if(!index){
     return
   }
-  const circle = Bodies.circle(x, 10, index * 20, {
+  const block = blocks[index]
+  console.log(index)
+  const circle = Bodies.circle(x, 10, block.size/2, {
     label: String(index),
   })
   World.add(engine.world, circle)
