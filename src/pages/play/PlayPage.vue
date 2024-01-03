@@ -4,16 +4,19 @@
     <next-block :next-index="nextBlockRef"/>
   </div>
   <div ref="canvas" class=""></div>
+  <game-over v-if="gameOverRef" :score="scoreRef" @replay="onReplay"/>
 </template>
 <script setup lang="ts">
 import {Engine, Render, Bodies, Composite, World, Runner, Events} from 'matter-js'
 import {onMounted, ref} from "vue";
 import {createBlock} from "../../utils";
 import NextBlock from "./_components/NextBlock.vue";
+import GameOver from "./_components/GameOver.vue";
 
 const scoreRef = ref(0)
 const isDroppingRef = ref(false)
 const nextBlockRef = ref(0)
+const gameOverRef = ref(false)
 
 const canvas = ref<HTMLElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
@@ -38,7 +41,7 @@ onMounted(()=>{
     }
   });
 
-  const ground = Bodies.rectangle(width/2, height-60, width, 120, { isStatic: true, render: {fillStyle: '#FCBF31', lineWidth:4, strokeStyle:'#000000'}});
+  const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#FCBF31', lineWidth:4, strokeStyle:'#000000'}});
   const left = Bodies.rectangle(0, height/2, 1, height, {
     isStatic: true,
     render: {fillStyle: '#FFFFFF'}
@@ -64,7 +67,7 @@ onMounted(()=>{
         if(isDroppingRef.value){
           return
         }
-        alert('gameover')
+        gameOverRef.value=true
       }
       if (collision.bodyA.label !== collision.bodyB.label) {
         return
@@ -85,7 +88,6 @@ onMounted(()=>{
 })
 
 const addBlock = (x: number) => {
-  console.log(nextBlockRef.value)
   if(!nextBlockRef.value){
     return
   }
@@ -98,6 +100,11 @@ const addBlock = (x: number) => {
 
 const setNextBlock = () => {
   nextBlockRef.value = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
+}
+
+const onReplay = () => {
+  // todo : 새로고침 성능 확인
+  location.reload()
 }
 
 window.addEventListener('click', (event)=>{
