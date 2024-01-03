@@ -9,7 +9,10 @@ import {computed} from "vue";
 import {blocks} from "../setting.ts";
 
 const props = defineProps({
-  nextIndex: Number
+  nextIndex: {
+    type: Number,
+    default: 0
+  }
 })
 
 const block = computed(() => blocks[props.nextIndex])
