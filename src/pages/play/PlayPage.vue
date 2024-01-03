@@ -7,7 +7,7 @@
   <game-over v-if="gameOverRef" :score="scoreRef" @replay="onReplay"/>
 </template>
 <script setup lang="ts">
-import {Engine, Render, Bodies, Composite, World, Runner, Events} from 'matter-js'
+import {Engine, Render, Bodies, Composite, World, Runner, Events, Body} from 'matter-js'
 import {onMounted, ref} from "vue";
 import {createBlock} from "../../utils";
 import NextBlock from "./_components/NextBlock.vue";
@@ -16,17 +16,22 @@ import GameOver from "./_components/GameOver.vue";
 const scoreRef = ref(0)
 const isDroppingRef = ref(false)
 const nextBlockRef = ref(0)
+const currentBlockRef = ref<Body|null>(null)
 const gameOverRef = ref(false)
+
+const widthRef = ref(0)
+const heightRef = ref(0)
 
 const canvas = ref<HTMLElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
 const runner = Runner.create();
 
 onMounted(()=>{
-  const width = window.innerWidth
-  const height = window.innerHeight
+  const width = widthRef.value = window.innerWidth
+  const height = heightRef.value = window.innerHeight
 
   setNextBlock()
+  addBlock()
 
   //todo 화면 너비에 다른 블럭 사이즈 조절
   const render = Render.create({
@@ -87,19 +92,33 @@ onMounted(()=>{
   })
 })
 
-const addBlock = (x: number) => {
-  if(!nextBlockRef.value){
+const addBlock = () => {
+  currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value/2, 80, true)
+  World.add(engine.world, currentBlockRef.value)
+  setNextBlock()
+}
+
+const dropBlock = () => {
+  if(!currentBlockRef.value || isDroppingRef.value){
     return
   }
   isDroppingRef.value = true
-  const block = createBlock(nextBlockRef.value, x, 10)
-  setNextBlock()
-  setTimeout(()=>{isDroppingRef.value=false}, 1000)
-  World.add(engine.world, block)
+  Body.setStatic(currentBlockRef.value, false)
+  setTimeout(()=>{
+    isDroppingRef.value=false
+    addBlock()
+  }, 1000)
 }
 
 const setNextBlock = () => {
   nextBlockRef.value = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
+}
+
+const onDrag = (x: number) => {
+  if(isDroppingRef.value || !currentBlockRef.value){
+    return
+  }
+  Body.setPosition(currentBlockRef.value, { x, y: 80 })
 }
 
 const onReplay = () => {
@@ -107,17 +126,20 @@ const onReplay = () => {
   location.reload()
 }
 
-window.addEventListener('click', (event)=>{
-  if(isDroppingRef.value){
-    return
-  }
-  addBlock(event.clientX)
+window.addEventListener('mousemove', (event)=>{
+  onDrag(event.clientX)
 })
-window.addEventListener('touchstart', (event)=>{
-  if(isDroppingRef.value){
-    return
-  }
-  addBlock(event.touches[0].clientX)
+
+window.addEventListener('mouseup', ()=>{
+  dropBlock()
+})
+
+window.addEventListener('touchmove', (event)=>{
+  onDrag(event.touches[0].clientX)
+})
+
+window.addEventListener('touchend', ()=>{
+  dropBlock()
 })
 
 </script>
