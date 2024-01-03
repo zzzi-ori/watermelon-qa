@@ -1,7 +1,7 @@
 <template>
   <div class="absolute z-10">
-    <div class="text-4xl ml-4 my-4">score: {{score}}</div>
-    <next-block :next-index="1"/>
+    <div class="text-4xl ml-4 my-4">score: {{scoreRef}}</div>
+    <next-block :next-index="nextBlockRef"/>
   </div>
   <div ref="canvas" class=""></div>
 </template>
@@ -11,8 +11,9 @@ import {onMounted, ref} from "vue";
 import {createBlock} from "../../utils";
 import NextBlock from "./_components/NextBlock.vue";
 
-const score = ref(0)
-const isDropping = ref(false)
+const scoreRef = ref(0)
+const isDroppingRef = ref(false)
+const nextBlockRef = ref(0)
 
 const canvas = ref<HTMLElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
@@ -21,6 +22,9 @@ const runner = Runner.create();
 onMounted(()=>{
   const width = window.innerWidth
   const height = window.innerHeight
+
+  setNextBlock()
+
   //todo 화면 너비에 다른 블럭 사이즈 조절
   const render = Render.create({
     element: canvas.value,
@@ -57,7 +61,7 @@ onMounted(()=>{
   Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((collision) => {
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line'){
-        if(isDropping.value){
+        if(isDroppingRef.value){
           return
         }
         alert('gameover')
@@ -66,7 +70,7 @@ onMounted(()=>{
         return
       }
       const index = Number(collision.bodyA.label)
-      score.value = score.value + (index * 2)
+      scoreRef.value = scoreRef.value + (index * 2)
 
       // todo 최고 단계일 경우 처리
       if (index === 10) {
@@ -81,24 +85,29 @@ onMounted(()=>{
 })
 
 const addBlock = (x: number) => {
-  const index = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
-  if(!index){
+  console.log(nextBlockRef.value)
+  if(!nextBlockRef.value){
     return
   }
-  isDropping.value = true
-  const block = createBlock(index, x, 10)
-  setTimeout(()=>{isDropping.value=false}, 1000)
+  isDroppingRef.value = true
+  const block = createBlock(nextBlockRef.value, x, 10)
+  setNextBlock()
+  setTimeout(()=>{isDroppingRef.value=false}, 1000)
   World.add(engine.world, block)
 }
 
+const setNextBlock = () => {
+  nextBlockRef.value = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
+}
+
 window.addEventListener('click', (event)=>{
-  if(isDropping.value){
+  if(isDroppingRef.value){
     return
   }
   addBlock(event.clientX)
 })
 window.addEventListener('touchstart', (event)=>{
-  if(isDropping.value){
+  if(isDroppingRef.value){
     return
   }
   addBlock(event.touches[0].clientX)
