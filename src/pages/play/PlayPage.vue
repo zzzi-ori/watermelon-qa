@@ -26,6 +26,9 @@ const canvas = ref<HTMLElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
 const runner = Runner.create();
 
+// todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
+// todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
+
 onMounted(()=>{
   const width = widthRef.value = window.innerWidth
   const height = heightRef.value = window.innerHeight
@@ -39,7 +42,7 @@ onMounted(()=>{
     engine,
     options: {
       wireframes: false,
-      background: 'transparent',
+      background: '#FF0000',
       width,
       height,
       showAngleIndicator: true
