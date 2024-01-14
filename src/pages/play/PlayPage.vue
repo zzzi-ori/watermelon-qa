@@ -3,7 +3,7 @@
     <div class="text-4xl ml-4 my-4">score: {{scoreRef}}</div>
     <next-block :next-index="nextBlockRef"/>
   </div>
-  <img class="absolute top-0 left-0 w-full h-auto -z-10" :src="grassPattern" />
+  <img class="absolute top-0 left-0 w-full h-auto -z-10" :src="grassPattern" alt="grass" />
   <canvas ref="canvas" />
   <ground :height="groundHeight"/>
   <game-over v-if="gameOverRef" :score="scoreRef" @replay="onReplay"/>

@@ -1,6 +1,6 @@
 <template>
   <div class="ground absolute bottom-0 w-full bg-[#81685A]">
-    <img :src="groundPattern" />
+    <img :src="groundPattern" alt="ground" />
   </div>
 </template>
 <script setup lang="ts">
