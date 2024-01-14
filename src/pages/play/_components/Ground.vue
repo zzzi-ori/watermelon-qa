@@ -1,5 +1,5 @@
 <template>
-  <div class="ground absolute bottom-0 w-full bg-[#81685A]">
+  <div class="ground w-full bg-[#81685A]">
     <img :src="groundPattern" alt="ground" />
   </div>
 </template>
@@ -11,10 +11,7 @@ const props = defineProps({
   height: Number
 })
 
-const heightRef = computed(() => {
-  alert(`${props.height}px`)
-  return `${props.height}px`
-})
+const heightRef = computed(() => `${props.height}px`)
 
 </script>
 <style scoped>
