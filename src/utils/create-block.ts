@@ -1,5 +1,5 @@
 import {Bodies} from "matter-js";
-import {blocks} from "../pages/play/setting.ts";
+import {blocks, lineColor} from "../pages/play/setting.ts";
 
 export const createBlock = (index: number, x:number, y:number, isStatic:boolean=false) => {
     const block = blocks[index]
@@ -8,8 +8,8 @@ export const createBlock = (index: number, x:number, y:number, isStatic:boolean=
         label: String(index),
         render: {
             fillStyle: block.color,
-            lineWidth:4,
-            strokeStyle:'#000000'
+            lineWidth: 2.5,
+            strokeStyle: lineColor,
         }
     })
     return circle

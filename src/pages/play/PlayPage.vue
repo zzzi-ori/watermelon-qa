@@ -3,15 +3,21 @@
     <div class="text-4xl ml-4 my-4">score: {{scoreRef}}</div>
     <next-block :next-index="nextBlockRef"/>
   </div>
-  <div ref="canvas" class=""></div>
+  <img class="absolute top-0 left-0 w-full h-auto -z-10" :src="grassPattern" />
+  <canvas ref="canvas" />
+  <ground :height="groundHeight"/>
   <game-over v-if="gameOverRef" :score="scoreRef" @replay="onReplay"/>
 </template>
 <script setup lang="ts">
 import {Engine, Render, Bodies, Composite, World, Runner, Events, Body} from 'matter-js'
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {createBlock} from "../../utils";
 import NextBlock from "./_components/NextBlock.vue";
 import GameOver from "./_components/GameOver.vue";
+import Ground from "./_components/Ground.vue";
+import {getDynamicCanvasSize} from "../../utils/get-dynamic-canvas-size.ts";
+import ground from "./_components/Ground.vue";
+import grassPattern from '../../assets/grass-pattern.svg'
 
 const scoreRef = ref(0)
 const isDroppingRef = ref(false)
@@ -21,8 +27,9 @@ const gameOverRef = ref(false)
 
 const widthRef = ref(0)
 const heightRef = ref(0)
+const groundHeight = computed(() => window.innerHeight - heightRef.value)
 
-const canvas = ref<HTMLElement>()
+const canvas = ref<HTMLCanvasElement>()
 const engine = Engine.create({gravity: {x:0, y:1}})
 const runner = Runner.create();
 
@@ -30,26 +37,32 @@ const runner = Runner.create();
 // todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
 
 onMounted(()=>{
-  const width = widthRef.value = window.innerWidth
-  const height = heightRef.value = window.innerHeight
+  const {width, height} = getDynamicCanvasSize()
+  widthRef.value = width
+  heightRef.value = height
 
   setNextBlock()
   addBlock()
 
   //todo 화면 너비에 다른 블럭 사이즈 조절
   const render = Render.create({
-    element: canvas.value,
+    canvas: canvas.value,
     engine,
     options: {
       wireframes: false,
       background: 'transparent',
       width,
       height,
-      showAngleIndicator: true
+      pixelRatio: window.devicePixelRatio
     }
-  });
+  })
 
-  const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#81685A'}});
+  // const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#81685A'}});
+  const bottom = Bodies.rectangle(width/2, height, width, 10, {
+    isStatic: true,
+    restitution: 1,
+    render: {fillStyle: '#81685A'}
+  })
   const left = Bodies.rectangle(0, height/2, 1, height, {
     isStatic: true,
     render: {fillStyle: '#FFFFFF'}
@@ -64,7 +77,7 @@ onMounted(()=>{
     label: 'line',
     render: {fillStyle: '#000000'}
   })
-  Composite.add(engine.world, [line, ground, left, right]);
+  Composite.add(engine.world, [line, bottom, left, right]);
 
   Render.run(render);
   Runner.run(runner, engine);
@@ -80,6 +93,7 @@ onMounted(()=>{
       if (collision.bodyA.label !== collision.bodyB.label) {
         return
       }
+      console.log('collision deleted')
       const index = Number(collision.bodyA.label)
       scoreRef.value = scoreRef.value + (index * 2)
 
