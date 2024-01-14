@@ -42,7 +42,7 @@ onMounted(()=>{
     engine,
     options: {
       wireframes: false,
-      background: '#FF0000',
+      background: 'transparent',
       width,
       height,
       showAngleIndicator: true
