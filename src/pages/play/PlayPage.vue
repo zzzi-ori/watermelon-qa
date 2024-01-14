@@ -49,7 +49,7 @@ onMounted(()=>{
     }
   });
 
-  const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#FCBF31', lineWidth:4, strokeStyle:'#000000'}});
+  const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#81685A'}});
   const left = Bodies.rectangle(0, height/2, 1, height, {
     isStatic: true,
     render: {fillStyle: '#FFFFFF'}
