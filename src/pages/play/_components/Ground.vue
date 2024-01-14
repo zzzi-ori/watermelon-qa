@@ -11,7 +11,10 @@ const props = defineProps({
   height: Number
 })
 
-const heightRef = computed(() => `${props.height}px`)
+const heightRef = computed(() => {
+  alert(`${props.height}px`)
+  return `${props.height}px`
+})
 
 </script>
 <style scoped>
