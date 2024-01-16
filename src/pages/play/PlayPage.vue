@@ -1,5 +1,6 @@
 <template>
   <div class="absolute z-10">
+    <div class="text-4xl ml-4 my-4">timer: {{count}}</div>
     <div class="text-4xl ml-4 my-4">score: {{scoreRef}}</div>
     <next-block :next-index="nextBlockRef"/>
   </div>
@@ -9,91 +10,83 @@
   <game-over v-if="gameOverRef" :score="scoreRef" @replay="onReplay"/>
 </template>
 <script setup lang="ts">
-import {Engine, Render, Bodies, Composite, World, Runner, Events, Body} from 'matter-js'
-import {computed, onMounted, ref} from "vue";
-import {createBlock} from "../../utils";
-import NextBlock from "./_components/NextBlock.vue";
-import GameOver from "./_components/GameOver.vue";
-import Ground from "./_components/Ground.vue";
-import {getDynamicCanvasSize} from "../../utils/get-dynamic-canvas-size.ts";
-import ground from "./_components/Ground.vue";
-import grassPattern from '../../assets/grass-pattern.svg'
+  import {Engine, Render, World, Runner, Events, Body} from 'matter-js'
+  import {computed, onMounted, ref, watch} from "vue";
+  import {createBlock} from "../../utils";
+  import NextBlock from "./_components/NextBlock.vue";
+  import GameOver from "./_components/GameOver.vue";
+  import Ground from "./_components/Ground.vue";
+  import {getDynamicCanvasSize} from "../../utils/get-dynamic-canvas-size.ts";
+  import ground from "./_components/Ground.vue";
+  import grassPattern from '../../assets/grass-pattern.svg'
+  import {useTimer} from "../../hooks/use-timer.ts";
+  import {setField} from "../../utils/set-field.ts";
 
-const scoreRef = ref(0)
-const isDroppingRef = ref(false)
-const nextBlockRef = ref(0)
-const currentBlockRef = ref<Body|null>(null)
-const gameOverRef = ref(false)
+  const scoreRef = ref(0)
+  const isDroppingRef = ref(false)
+  const nextBlockRef = ref(0)
+  const currentBlockRef = ref<Body|null>(null)
+  const gameOverRef = ref(false)
 
-const widthRef = ref(0)
-const heightRef = ref(0)
-const groundHeight = computed(() => window.innerHeight - heightRef.value)
+  const widthRef = ref(0)
+  const heightRef = ref(0)
+  const groundHeight = computed(() => window.innerHeight - heightRef.value)
 
-const canvas = ref<HTMLCanvasElement>()
-const engine = Engine.create({gravity: {x:0, y:1}})
-const runner = Runner.create();
+  const {count, start, reset} = useTimer(3, ()=>{endGame()})
+  const collisions = ref<Set<number>>(new Set())
 
-// todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
-// todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
-
-onMounted(()=>{
-  const {width, height} = getDynamicCanvasSize()
-  widthRef.value = width
-  heightRef.value = height
-
-  setNextBlock()
-  addBlock()
-
-  //todo 화면 너비에 다른 블럭 사이즈 조절
-  const render = Render.create({
-    canvas: canvas.value,
-    engine,
-    options: {
-      wireframes: false,
-      background: 'transparent',
-      width,
-      height,
-      pixelRatio: window.devicePixelRatio
+  watch(collisions.value, (value)=>{
+    if(value.size > 0){
+      start()
+    }
+    if(value.size === 0){
+      reset()
     }
   })
 
-  // const ground = Bodies.rectangle(width/2, height-48, width, 96, { isStatic: true, render: {fillStyle: '#81685A'}});
-  const bottom = Bodies.rectangle(width/2, height, width, 10, {
-    isStatic: true,
-    restitution: 1,
-    render: {fillStyle: '#81685A'}
-  })
-  const left = Bodies.rectangle(0, height/2, 1, height, {
-    isStatic: true,
-    render: {fillStyle: '#FFFFFF'}
-  })
-  const right = Bodies.rectangle(width, height/2, 1, height, {
-    isStatic: true,
-    render: {fillStyle: '#FFFFFF'}
-  })
-  const line = Bodies.rectangle(width/2, 150, width, 2,  {
-    isStatic: true,
-    isSensor: true,
-    label: 'line',
-    render: {fillStyle: '#000000'}
-  })
-  Composite.add(engine.world, [line, bottom, left, right]);
+  const canvas = ref<HTMLCanvasElement>()
+  const engine = Engine.create({gravity: {x:0, y:1}})
+  const runner = Runner.create();
 
-  Render.run(render);
-  Runner.run(runner, engine);
+  // todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
+  // todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
+
+  onMounted(()=>{
+    const {width, height} = getDynamicCanvasSize()
+    widthRef.value = width
+    heightRef.value = height
+
+    setNextBlock()
+    addBlock()
+
+    //todo 화면 너비에 다른 블럭 사이즈 조절
+    const render = Render.create({
+      canvas: canvas.value,
+      engine,
+      options: {
+        wireframes: false,
+        background: 'transparent',
+        width,
+        height,
+        pixelRatio: window.devicePixelRatio
+      }
+    })
+
+    setField(engine.world, width, height)
+    Render.run(render);
+    Runner.run(runner, engine);
+  })
 
   Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((collision) => {
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line'){
-        if(isDroppingRef.value){
-          return
-        }
-        gameOverRef.value=true
+        const circle = collision.bodyA.label==='line' ? collision.bodyB.id : collision.bodyA.id
+        collisions.value.add(circle)
       }
       if (collision.bodyA.label !== collision.bodyB.label) {
         return
       }
-      console.log('collision deleted')
+
       const index = Number(collision.bodyA.label)
       scoreRef.value = scoreRef.value + (index * 2)
 
@@ -107,7 +100,15 @@ onMounted(()=>{
       }
     )
   })
-})
+
+  Events.on(engine, 'collisionEnd', (event) => {
+    event.pairs.forEach((collision) => {
+      if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line'){
+        const circle = collision.bodyA.label==='line' ? collision.bodyB.id : collision.bodyA.id
+        collisions.value.delete(circle)
+      }
+    })
+  })
 
 const addBlock = () => {
   currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value/2, 80, true)
@@ -119,10 +120,8 @@ const dropBlock = () => {
   if(!currentBlockRef.value || isDroppingRef.value){
     return
   }
-  isDroppingRef.value = true
   Body.setStatic(currentBlockRef.value, false)
   setTimeout(()=>{
-    isDroppingRef.value=false
     addBlock()
   }, 1000)
 }
@@ -141,6 +140,10 @@ const onDrag = (x: number) => {
 const onReplay = () => {
   // todo : 새로고침 성능 확인
   location.reload()
+}
+
+const endGame = () => {
+  gameOverRef.value=true
 }
 
 window.addEventListener('mousemove', (event)=>{
