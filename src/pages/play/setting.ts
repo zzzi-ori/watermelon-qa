@@ -1,3 +1,14 @@
+import b1 from '../../assets/block/1.png'
+import b2 from '../../assets/block/2.png'
+import b3 from '../../assets/block/3.png'
+import b4 from '../../assets/block/4.png'
+import b5 from '../../assets/block/5.png'
+import b6 from '../../assets/block/6.png'
+import b7 from '../../assets/block/7.png'
+import b8 from '../../assets/block/8.png'
+import b9 from '../../assets/block/9.png'
+import b10 from '../../assets/block/10.png'
+
 type Block = {
     size: number;
     color: string;
@@ -19,3 +30,16 @@ const blocks: { [key: number]: Block } = {
 };
 
 export {lineColor, blocks}
+
+export const Background: {[key: number]: any} = {
+    1: b1,
+    2: b2,
+    3: b3,
+    4: b4,
+    5: b5,
+    6: b6,
+    7: b7,
+    8: b8,
+    9: b9,
+    10: b10
+}
