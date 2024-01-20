@@ -18,7 +18,7 @@ export const setField = (world: World, width: number, height: number) => {
         isStatic: true,
         isSensor: true,
         label: 'line',
-        render: {fillStyle: '#000000'}
+        render: {fillStyle: '#FF6C6C'}
     })
     Composite.add(world, [line, bottom, left, right]);
 }
