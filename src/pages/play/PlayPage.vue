@@ -37,7 +37,7 @@
   const heightRef = ref(0)
   const groundHeight = computed(() => window.innerHeight - heightRef.value)
 
-  const {count, start, reset} = useTimer(3, ()=>{endGame()})
+  const {start, reset} = useTimer(3, ()=>{endGame()})
   const collisions = ref<Set<number>>(new Set())
 
   watch(collisions.value, (value)=>{
