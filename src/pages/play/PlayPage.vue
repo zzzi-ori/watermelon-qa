@@ -1,7 +1,6 @@
 <template>
   <layout ref="layoutRef">
     <div class="absolute mt-7 w-full z-10 px-4 flex justify-between">
-      <!-- <div class="text-4xl ml-4 my-4">timer: {{count}}</div>-->
       <next-block :next-index="nextBlockRef"/>
       <score :score="scoreRef"/>
     </div>
@@ -28,9 +27,11 @@
 
   const layoutRef = ref<ComponentPublicInstance>()
   const scoreRef = ref(0)
-  const isDroppingRef = ref(false)
+
   const nextBlockRef = ref(0)
   const currentBlockRef = ref<Body|null>(null)
+
+  const isSetBlock = ref(false)
   const gameOverRef = ref(false)
 
   const widthRef = ref(0)
@@ -135,26 +136,28 @@
 
   const addBlock = () => {
     currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value/2, 80, true)
+    isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
-  }
-
-  const dropBlock = () => {
-    if(!currentBlockRef.value || isDroppingRef.value){
-      return
-    }
-    Body.setStatic(currentBlockRef.value, false)
-    setTimeout(()=>{
-      addBlock()
-    }, 1000)
   }
 
   const setNextBlock = () => {
     nextBlockRef.value = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
   }
 
+  const dropBlock = () => {
+    if(!currentBlockRef.value || isSetBlock.value){
+      return
+    }
+    isSetBlock.value = true
+    Body.setStatic(currentBlockRef.value, false)
+    setTimeout(()=>{
+      addBlock()
+    }, 1000)
+  }
+
   const onDrag = (x: number) => {
-    if(isDroppingRef.value || !currentBlockRef.value){
+    if(!currentBlockRef.value || isSetBlock.value){
       return
     }
     Body.setPosition(currentBlockRef.value, { x, y: 80 })
