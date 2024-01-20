@@ -1,5 +1,5 @@
 <template>
-  <div class="text-[30px] font-black text-[#FEBE31] text-shadow">{{score}}</div>
+  <div class="text-[30px] font-black text-[#FEBE31] text-shadow leading-7	">{{score}}</div>
 </template>
 <script setup lang="ts">
 defineProps({
