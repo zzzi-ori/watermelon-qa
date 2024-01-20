@@ -6,7 +6,16 @@
 </template>
 <script setup lang="ts">
 import {computed} from "vue";
-import {n1, n2, n3, n4, n5, n6, n7, n8, n9, n10} from '/src/assets/next'
+import n1 from '/src/assets/next/n1.png'
+import n2 from '/src/assets/next/n2.png'
+import n3 from '/src/assets/next/n3.png'
+import n4 from '/src/assets/next/n4.png'
+import n5 from '/src/assets/next/n5.png'
+import n6 from '/src/assets/next/n6.png'
+import n7 from '/src/assets/next/n7.png'
+import n8 from '/src/assets/next/n8.png'
+import n9 from '/src/assets/next/n9.png'
+import n10 from '/src/assets/next/n10.png'
 
 const props = defineProps({
   nextIndex: {
