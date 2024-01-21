@@ -12,18 +12,16 @@
 </template>
 <script setup lang="ts">
   import {Engine, Render, World, Runner, Events, Body} from 'matter-js'
-  import {ComponentPublicInstance, computed, onMounted, ref, watch} from "vue";
-  import {createBlock} from "../../utils";
-  import NextBlock from "./_components/NextBlock.vue";
-  import GameOver from "./_components/GameOver.vue";
-  import Ground from "./_components/Ground.vue";
-  import {getDynamicCanvasHeight} from "../../utils/get-dynamic-canvas-size.ts";
-  import ground from "./_components/Ground.vue";
+  import {ComponentPublicInstance, computed, onMounted, ref, watch} from "vue"
+  import {createBlock, getDynamicCanvasHeight, setField, getBlockIndex} from '../../utils'
+  import NextBlock from './_components/NextBlock.vue'
+  import GameOver from './_components/GameOver.vue'
+  import Ground from './_components/Ground.vue'
+  import ground from './_components/Ground.vue'
   import grassPattern from '../../assets/grass-pattern.svg'
-  import {useTimer} from "../../hooks/use-timer.ts";
-  import {setField} from "../../utils/set-field.ts";
-  import Layout from "../../components/Layout.vue";
-  import Score from "./_components/Score.vue";
+  import {useTimer} from '../../hooks/use-timer.ts'
+  import Layout from '../../components/Layout.vue'
+  import Score from './_components/Score.vue'
 
   const layoutRef = ref<ComponentPublicInstance>()
   const scoreRef = ref(0)
@@ -37,6 +35,8 @@
   const widthRef = ref(0)
   const heightRef = ref(0)
   const groundHeight = computed(() => window.innerHeight - heightRef.value)
+
+  const totalBlockCountRef = ref(0)
 
   const {start, reset} = useTimer(3, ()=>{endGame()})
   const collisions = ref<Set<number>>(new Set())
@@ -142,7 +142,8 @@
   }
 
   const setNextBlock = () => {
-    nextBlockRef.value = Math.floor(Math.random() * 5) + 1 // 1 ~ 5
+    nextBlockRef.value = getBlockIndex(totalBlockCountRef.value)
+    totalBlockCountRef.value += 1
   }
 
   const dropBlock = () => {
