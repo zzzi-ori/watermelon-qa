@@ -22,6 +22,7 @@
   import {useTimer} from '../../hooks/use-timer.ts'
   import Layout from '../../components/Layout.vue'
   import Score from './_components/Score.vue'
+  import {blocks} from "@/pages/play/setting.ts";
 
   const layoutRef = ref<ComponentPublicInstance>()
   const scoreRef = ref(0)
@@ -111,7 +112,7 @@
       }
 
       const index = Number(collision.bodyA.label)
-      scoreRef.value = scoreRef.value + (index * 2)
+      scoreRef.value = scoreRef.value + (blocks[index].score)
 
       // todo 최고 단계일 경우 처리
       if (index === 10) {
