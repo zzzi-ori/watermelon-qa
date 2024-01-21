@@ -143,8 +143,8 @@
   }
 
   const setNextBlock = () => {
-    nextBlockRef.value = getBlockIndex(totalBlockCountRef.value)
     totalBlockCountRef.value += 1
+    nextBlockRef.value = getBlockIndex(totalBlockCountRef.value)
   }
 
   const dropBlock = () => {
