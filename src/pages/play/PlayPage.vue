@@ -22,7 +22,7 @@
   import {useTimer} from '../../hooks/use-timer.ts'
   import Layout from '../../components/Layout.vue'
   import Score from './_components/Score.vue'
-  import {blocks} from "@/pages/play/setting.ts";
+  import {blocks} from './setting.ts'
 
   const layoutRef = ref<ComponentPublicInstance>()
   const scoreRef = ref(0)
