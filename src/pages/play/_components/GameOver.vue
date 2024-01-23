@@ -1,16 +1,18 @@
 <template>
   <div class="fixed inset-0 flex items-center justify-center z-50">
-    <div class="flex flex-col gap-10 w-[300px] h-[675px] justify-center items-center bg-white text-4xl rounded-3xl border-2 border-black">
-      <img :src="endText" alt="끗" width="75"/>
-      <img :src="endImage" alt="덕 같이 멸망" width="253"/>
-      <span>score: {{ score }}</span>
-      <button @click="$emit('replay')" class="bg-[#FCBF31] rounded-full border-2 border-black px-6">또 해야되네</button>
+    <div class="flex flex-col gap-10 min-w-[300px] px-4 py-4 justify-center items-center bg-white text-4xl rounded-3xl border-2 border-black">
+      <h1 class="text-shadow text-[30px] font-black text-[#43F091]">-끝-</h1>
+      <p>
+        <span class="write">내 점수 : </span><span class="text-shadow text-[30px] font-black text-[#FEBE31]">{{ score }}</span>
+      </p>
+      <ZButton @click="$emit('replay')" >다시하기</ZButton>
+      <img :src="endImage" alt="찌그렁 오리" width="120"/>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import endImage from '../../../assets/end-image.png'
-import endText from '../../../assets/end-text.png'
+import ZButton from '../../../components/ZButton.vue'
 
 defineProps({
   score: {
@@ -19,3 +21,12 @@ defineProps({
   }
 })
 </script>
+<style scoped>
+.text-shadow {
+text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000, 1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+}
+
+.write {
+  font-family: GangwonEduHyeonokT_OTFMediumA;
+}
+</style>
