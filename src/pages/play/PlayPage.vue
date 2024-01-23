@@ -173,7 +173,4 @@
   const endGame = () => {
     gameOverRef.value=true
   }
-
-
-
 </script>
