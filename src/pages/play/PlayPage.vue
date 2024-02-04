@@ -112,13 +112,14 @@
       }
 
       const index = Number(collision.bodyA.label)
-      scoreRef.value = scoreRef.value + (blocks[index].score)
 
-      // todo 최고 단계일 경우 처리
       if (index === 10) {
         return
       }
-      const newBlock = createBlock(index+1, collision.collision.supports[0].x, collision.collision.supports[0].y)
+
+      scoreRef.value = scoreRef.value + (blocks[index].score)
+
+      const newBlock = createBlock(10, collision.collision.supports[0].x, collision.collision.supports[0].y)
       World.remove(engine.world, [collision.bodyA, collision.bodyB])
       World.add(engine.world, newBlock)
       }
