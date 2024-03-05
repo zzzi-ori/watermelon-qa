@@ -73,6 +73,10 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((collision) => {
+      console.log(collision.bodyA.label, collision.bodyB.label, '충돌:', collision.bodyA.id, collision.bodyB.id)
+      if (collision.bodyA.label === 'removed' || collision.bodyB.label === 'removed') {
+        return
+      }
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line') {
         const circle = collision.bodyA.label === 'line' ? collision.bodyB.id : collision.bodyA.id
         collisions.value.add(circle)
@@ -86,6 +90,9 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
       if (index === 10) {
         return
       }
+
+      collision.bodyA.label = 'removed'
+      collision.bodyB.label = 'removed'
 
       scoreRef.value = scoreRef.value + (blocks[index].score)
 
@@ -119,7 +126,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(10, widthRef.value / 2, 80, ratioRef.value, true)
+    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 80, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
