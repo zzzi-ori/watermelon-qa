@@ -45,7 +45,7 @@ const blocks: { [key: number]: Block } = {
 
 export {lineColor, blocks}
 
-export const Background: { [key: number]: any } = {
+export const Background: { [key: number]: string } = {
   1: b1,
   2: b2,
   3: b3,
