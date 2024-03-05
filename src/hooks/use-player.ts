@@ -13,6 +13,8 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   const widthRef = ref(0)
   const heightRef = ref(0)
+  const ratioRef = computed(() => widthRef.value / 380)
+
   const isSetBlock = ref(false)
   const gameOverRef = ref(false)
 
@@ -29,7 +31,6 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     }
     const width = element.value.clientWidth
     const height = getDynamicCanvasHeight(width)
-    console.log('mount', width, height)
     widthRef.value = width
     heightRef.value = height
 
@@ -88,7 +89,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
       scoreRef.value = scoreRef.value + (blocks[index].score)
 
-      const newBlock = createBlock(index + 1, collision.collision.supports[0].x, collision.collision.supports[0].y)
+      const newBlock = createBlock(index + 1, collision.collision.supports[0].x, collision.collision.supports[0].y, ratioRef.value)
       World.remove(engine.world, [collision.bodyA, collision.bodyB])
       World.add(engine.world, newBlock)
     }
@@ -118,7 +119,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 80, true)
+    currentBlockRef.value = createBlock(10, widthRef.value / 2, 80, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
@@ -130,6 +131,9 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   }
 
   const drop = () => {
+    if (gameOverRef.value) {
+      return
+    }
     if (!currentBlockRef.value || isSetBlock.value) {
       return
     }
@@ -141,6 +145,9 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   }
 
   const onDrag = (x: number) => {
+    if (gameOverRef.value) {
+      return
+    }
     if (!currentBlockRef.value || isSetBlock.value) {
       return
     }
