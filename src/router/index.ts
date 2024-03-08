@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import PlayPage from "../pages/play/PlayPage.vue";
+import {createRouter, createWebHistory} from 'vue-router'
+import PlayPage from '../pages/play/PlayPage.vue'
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/watermelon'),
+  history: createWebHistory('/'),
   routes,
 })
 
