@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     fontSize: {
+      'subtitle': [
+        '1.125rem', {
+          lineHeight: '',
+          fontWeight: '700'
+        }
+      ],
       'caption-r': [
         '0.75rem', // 12px
         {
