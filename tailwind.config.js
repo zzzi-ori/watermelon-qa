@@ -5,6 +5,32 @@ export default {
     './src/**/*.{js,ts,vue,jsx,tsx}',
   ],
   theme: {
+    fontSize: {
+      'caption-r': [
+        '0.75rem', // 12px
+        {
+          lineHeight: '',
+          fontWeight: '400'
+        }],
+      'caption-b': [
+        '0.75rem', // 12px
+        {
+          lineHeight: '',
+          fontWeight: '700'
+        }],
+    },
+    colors: {
+      primary: '#FEBE31',
+      red: '#FF6C6C',
+      'light-green': '#8ACFA7',
+      green: '#66BE8B',
+      'dark-green': '#489B6D',
+      gray: '#CDCDCD',
+      'dark-gray': '#7E7E7E',
+      transBlack: {
+        '15': 'rgba(0, 0, 0, 0.15)',
+      }
+    },
     extend: {},
   },
   plugins: [],
