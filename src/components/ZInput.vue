@@ -28,7 +28,7 @@ const onInupt = (event: Event) => {
 }
 
 const style = cva([
-  'w-full text-subtitle text-center p-4',
+  'w-full text-body-b text-center p-4',
   'rounded-[8px] px-[12px] py-[12px] border-2'
 ], {
   variants: {

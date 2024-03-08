@@ -12,6 +12,18 @@ export default {
           fontWeight: '700'
         }
       ],
+      'body-r': [
+        '1rem', // 16px
+        {
+          lineHeight: '',
+          fontWeight: '400'
+        }],
+      'body-b': [
+        '1rem', // 16px
+        {
+          lineHeight: '',
+          fontWeight: '700'
+        }],
       'caption-r': [
         '0.75rem', // 12px
         {
