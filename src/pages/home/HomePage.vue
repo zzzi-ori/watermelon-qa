@@ -26,7 +26,7 @@
 import zzioGame from '../../assets/zzio-game.svg'
 import title from '../../assets/title-beta.svg'
 import illustration from '../../assets/illustration.svg'
-import ZButton from '../../components/ZButton.vue'
+import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
 import {onBeforeUnmount, ref, watch} from 'vue'
 import Notice from './_components/Notice.vue'
