@@ -1,11 +1,15 @@
 <template>
   <button :class="style({disabled, color})" :disabled="disabled">
+    <LeftLine/>
     <slot/>
+    <RightLine/>
   </button>
 </template>
 <script setup lang="ts">
 import {cva} from 'class-variance-authority'
 import {PropType} from 'vue'
+import LeftLine from '../../components/button/_assets/LeftLine.vue'
+import RightLine from '../../components/button/_assets/RightLine.vue'
 
 defineProps({
   disabled: {type: Boolean, default: false},
@@ -17,7 +21,7 @@ type ButtonColor = 'primary' | 'secondary'
 const style = cva(
   [
     'text-black text-subtitle',
-    'w-full rounded-[8px] px-[12px] py-[12px] border-2'
+    'flex justify-between w-full rounded-[8px] px-[12px] py-[12px] border-2'
   ]
   , {
     variants: {
