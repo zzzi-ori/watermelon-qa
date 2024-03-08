@@ -15,13 +15,13 @@ export default {
       'body-r': [
         '1rem', // 16px
         {
-          lineHeight: '',
+          lineHeight: '24px',
           fontWeight: '400'
         }],
       'body-b': [
         '1rem', // 16px
         {
-          lineHeight: '',
+          lineHeight: '24px',
           fontWeight: '700'
         }],
       'caption-r': [

@@ -21,7 +21,7 @@ type ButtonColor = 'primary' | 'secondary'
 const style = cva(
   [
     'text-black text-body-b',
-    'flex justify-between w-full rounded-[8px] px-[12px] py-[12px] border-2'
+    'flex justify-between w-full rounded-[8px] px-[12px] py-[10px] border-2'
   ]
   , {
     variants: {
