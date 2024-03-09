@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     fontSize: {
+      'title': [
+        '2.25rem', {
+          lineHeight: '2.25rem',
+          fontWeight: '900'
+        }
+      ],
       'subtitle': [
         '1.125rem', {
           lineHeight: '',

@@ -1,16 +1,16 @@
 <template>
-  <div class="text-[30px] font-black text-[#FEBE31] text-shadow leading-7	">{{score}}</div>
+  <div class="flex items-center gap-1">
+    <div class="text-title">{{ score }}</div>
+    <img :src="coin" alt="찌오 코인"/>
+  </div>
 </template>
 <script setup lang="ts">
+import coin from '../../../assets/coin.svg'
+
 defineProps({
   score: {
-    type:Number,
+    type: Number,
     default: 0
   }
 })
 </script>
-<style scoped>
-.text-shadow {
-  text-shadow: 2px 0 #1E1E1E, -2px 0 #1E1E1E, 0 2px #1E1E1E, 0 -2px #1E1E1E, 1px 1px #1E1E1E, -1px -1px #1E1E1E, 1px -1px #1E1E1E, -1px 1px #1E1E1E;
-}
-</style>

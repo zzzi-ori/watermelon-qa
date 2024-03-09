@@ -1,9 +1,16 @@
 <template>
-  <div class="absolute mt-7 w-full z-10 px-4 flex justify-between">
-    <next-block :next-index="nextBlockRef"/>
+  <ZHeader class="pt-12">
+    <template v-slot:left>
+      <BackButton @click="goBack"/>
+    </template>
     <Score :score="score"/>
+    <template v-slot:right>
+      <Player :name="'안녕'"/>
+    </template>
+  </ZHeader>
+  <div class="mt-7 w-full z-10 px-4 flex justify-between">
+    <next-block :next-index="nextBlockRef"/>
   </div>
-  <img class="absolute top-0 left-0 w-full h-auto -z-10" :src="grassPattern" alt="grass"/>
   <canvas ref="canvas" class="border-x-2 border-[#489B6D] w-full"/>
   <ground :height="groundHeight"/>
   <game-over v-if="gameOverRef" :score="score" @replay="onReplay"/>
@@ -13,10 +20,14 @@ import {ref} from 'vue'
 import NextBlock from './_components/NextBlock.vue'
 import GameOver from './_components/GameOver.vue'
 import Ground from './_components/Ground.vue'
-import grassPattern from '../../assets/grass-pattern.svg'
 import Score from './_components/Score.vue'
 import {usePlayer} from '../../hooks/use-player.ts'
+import ZHeader from '../../components/ZHeader.vue'
+import BackButton from '../../components/button/BackButton.vue'
+import {useRouter} from 'vue-router'
+import Player from './_components/Player.vue'
 
+const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
 const {score, replay, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canvas)
 
@@ -25,5 +36,9 @@ const {score, replay, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canva
 
 const onReplay = () => {
   replay()
+}
+
+const goBack = () => {
+  router.back()
 }
 </script>
