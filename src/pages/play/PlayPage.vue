@@ -5,7 +5,7 @@
     </template>
     <Score :score="score"/>
     <template v-slot:right>
-      <Player :name="'안녕'"/>
+      <Player :name="userStore.nickName"/>
     </template>
   </ZHeader>
   <div class="mt-7 w-full z-10 px-4 flex justify-between">
@@ -26,7 +26,9 @@ import ZHeader from '../../components/ZHeader.vue'
 import BackButton from '../../components/button/BackButton.vue'
 import {useRouter} from 'vue-router'
 import Player from './_components/Player.vue'
+import {useUserStore} from '../../stores/user.ts'
 
+const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
 const {score, replay, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canvas)

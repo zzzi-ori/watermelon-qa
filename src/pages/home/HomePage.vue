@@ -7,8 +7,8 @@
       <ZButton color="secondary" :disabled="true">3월 말 오픈 예정</ZButton>
     </div>
     <div v-else class="flex flex-col items-center w-full">
-      <ZInput v-model="nicknameRef"/>
-      <ZButton @click="onClickPlay" color="primary" :disabled="!nicknameRef" class="mt-2">게임 시작</ZButton>
+      <ZInput v-model="userStore.nickName"/>
+      <ZButton @click="onClickPlay" color="primary" :disabled="!userStore.nickName" class="mt-2">게임 시작</ZButton>
       <ZButton
           @click="onClickRank"
           color="secondary"
@@ -32,10 +32,11 @@ import {onBeforeUnmount, ref, watch} from 'vue'
 import Notice from './_components/Notice.vue'
 import ZInput from '../../components/ZInput.vue'
 import {useRouter} from 'vue-router'
+import {useUserStore} from '../../stores/user.ts'
 
 const router = useRouter()
+const userStore = useUserStore()
 
-const nicknameRef = ref('')
 const closedRef = ref(false)
 const currentTime = ref(new Date())
 const targetTime = new Date('2024-03-17T19:00:00+09:00')
