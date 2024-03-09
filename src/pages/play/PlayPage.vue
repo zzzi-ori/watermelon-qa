@@ -1,5 +1,5 @@
 <template>
-  <ZHeader class="pt-12">
+  <ZHeader class="pt-6">
     <template v-slot:left>
       <BackButton @click="goBack"/>
     </template>

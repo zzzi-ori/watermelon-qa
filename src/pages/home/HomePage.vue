@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 justify-center items-center pt-12 px-6">
+  <div class="flex flex-col flex-1 justify-center items-center pt-6 px-6">
     <img :src="zzioGame" alt="zzio game"/>
     <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-8"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
