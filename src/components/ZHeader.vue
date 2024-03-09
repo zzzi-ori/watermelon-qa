@@ -1,8 +1,14 @@
 <template>
-  <div>
-    <slot name="left" />
-    <slot />
-    <slot name="right" />
+  <div class="relative flex items-center justify-center px-6">
+    <div class="absolute left-6 min-w-8">
+      <slot name="left"/>
+    </div>
+    <slot>
+      <div/>
+    </slot>
+    <div class="absolute right-6 min-w-8">
+      <slot name="right"/>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
