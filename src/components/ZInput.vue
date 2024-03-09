@@ -29,7 +29,7 @@ const onInupt = (event: Event) => {
 
 const style = cva([
   'w-full text-body-b text-center p-4',
-  'rounded-[8px] px-[16px] py-[10px] border-2'
+  'rounded-[8px] px-[16px] py-[12px] border-2'
 ], {
   variants: {
     filled: {
