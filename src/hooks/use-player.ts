@@ -161,14 +161,9 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     Body.setPosition(currentBlockRef.value, {x, y: 60})
   }
 
-  const replay = () => {
-    // todo : 새로고침 성능 확인
-    location.reload()
-  }
-
   const endGame = () => {
     gameOverRef.value = true
   }
 
-  return {engine, runner, score: scoreRef, collisions, replay, drop, groundHeight, nextBlockRef, gameOverRef}
+  return {engine, runner, score: scoreRef, collisions, drop, groundHeight, nextBlockRef, gameOverRef}
 }
