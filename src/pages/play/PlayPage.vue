@@ -16,7 +16,7 @@
   <game-over v-if="gameOverRef" :score="score" @replay="onReplay"/>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
+import {onBeforeUnmount, onMounted, ref} from 'vue'
 import NextBlock from './_components/NextBlock.vue'
 import GameOver from './_components/GameOver.vue'
 import Ground from './_components/Ground.vue'
@@ -37,8 +37,11 @@ onMounted(() => {
   if (!userStore.nickName) {
     router.replace('/')
   }
+  document.body.style.cssText = 'overflow: hidden; overscroll-behavior: none;'
+})
 
-  window.scrollTo(0, 1)
+onBeforeUnmount(() => {
+  document.body.style.cssText = ''
 })
 
 // todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
