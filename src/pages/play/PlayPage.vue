@@ -1,5 +1,5 @@
 <template>
-  <ZHeader class="pt-6">
+  <ZHeader class="mt-6">
     <template v-slot:left>
       <BackButton @click="goBack"/>
     </template>
@@ -8,11 +8,11 @@
       <Player :name="userStore.nickName"/>
     </template>
   </ZHeader>
-  <div class="mt-7 w-full z-10 px-4 flex justify-between">
-    <next-block :next-index="nextBlockRef"/>
+  <div class="relative flex-1">
+    <next-block :next-index="nextBlockRef" class="absolute top-6"/>
+    <canvas ref="canvas" class="bg-red border-x-2 border-[#489B6D] w-full"/>
+    <ground :height="groundHeight"/>
   </div>
-  <canvas ref="canvas" class="border-x-2 border-[#489B6D] w-full"/>
-  <ground :height="groundHeight"/>
   <game-over v-if="gameOverRef" :score="score" @replay="onReplay"/>
 </template>
 <script setup lang="ts">

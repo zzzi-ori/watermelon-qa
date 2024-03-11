@@ -1,11 +1,12 @@
 <template>
-  <div class="flex justify-center items-center bg-[#FCBF31] rounded-[10px] w-28 py-1 border-2 border-black">
-      <span class="text-[18px] mr-3 font-bold" >NEXT</span>
-      <img :src="block" class="w-[26px] h-[26px]" />
+  <div
+      class="flex justify-end items-center bg-[#FCBF31] rounded-r-full py-1 pr-1 pl-6 border-2 border-black border-l-0">
+    <span class="text-subtitle mr-3 font-bold">NEXT</span>
+    <img :src="block" class="w-[26px] h-[26px]"/>
   </div>
 </template>
 <script setup lang="ts">
-import {computed} from "vue"
+import {computed} from 'vue'
 import n1 from '@/assets/next/n1.png'
 import n2 from '@/assets/next/n2.png'
 import n3 from '@/assets/next/n3.png'
@@ -24,7 +25,7 @@ const props = defineProps({
   }
 })
 
-const Block : {[key:number]: any}  = {
+const Block: { [key: number]: string } = {
   1: n1,
   2: n2,
   3: n3,
@@ -38,7 +39,7 @@ const Block : {[key:number]: any}  = {
 }
 
 const block = computed(() => {
-  if(props.nextIndex in Block){
+  if (props.nextIndex in Block) {
     return Block[props.nextIndex]
   }
 })
