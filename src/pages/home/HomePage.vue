@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 justify-center items-center pt-6 px-6">
+  <div class="flex flex-col flex-1 justify-center items-center pt-3 px-6">
     <img :src="zzioGame" alt="zzio game"/>
     <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-8"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
@@ -28,7 +28,7 @@ import title from '../../assets/title-beta.svg'
 import illustration from '../../assets/illustration.svg'
 import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
-import {onBeforeUnmount, ref, watch} from 'vue'
+import {onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import Notice from './_components/Notice.vue'
 import ZInput from '../../components/ZInput.vue'
 import {useRouter} from 'vue-router'
@@ -43,6 +43,10 @@ const targetTime = new Date('2024-03-17T19:00:00+09:00')
 const interval = setInterval(() => {
   currentTime.value = new Date()
 }, 1000)
+
+onMounted(() => {
+  window.scrollTo(0, 1)
+})
 
 watch(currentTime, () => {
   if (currentTime.value > targetTime) {

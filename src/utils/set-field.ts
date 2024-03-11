@@ -14,7 +14,7 @@ export const setField = (world: World, width: number, height: number) => {
     isStatic: true,
     render: {fillStyle: '#FFFFFF'}
   })
-  const line = Bodies.rectangle(width / 2, 150, width, 2, {
+  const line = Bodies.rectangle(width / 2, 120, width, 2, {
     isStatic: true,
     isSensor: true,
     label: 'line',

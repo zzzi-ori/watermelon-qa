@@ -126,7 +126,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 80, ratioRef.value, true)
+    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
@@ -158,7 +158,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     if (!currentBlockRef.value || isSetBlock.value) {
       return
     }
-    Body.setPosition(currentBlockRef.value, {x, y: 80})
+    Body.setPosition(currentBlockRef.value, {x, y: 60})
   }
 
   const replay = () => {
