@@ -1,11 +1,8 @@
 <template>
-  <div class="ground w-full bg-[#81685A]">
-    <img :src="groundPattern" alt="ground" />
-  </div>
+  <div class="ground w-full bg-[#81685A]"/>
 </template>
 <script setup lang="ts">
-import groundPattern from '../../../assets/ground-pattern.svg'
-import {computed} from "vue";
+import {computed} from 'vue'
 
 const props = defineProps({
   height: Number

@@ -10,7 +10,7 @@
   </ZHeader>
   <div class="relative flex-1">
     <next-block :next-index="nextBlockRef" class="absolute top-6"/>
-    <canvas ref="canvas" class="bg-red border-x-2 border-[#489B6D] w-full"/>
+    <canvas ref="canvas" class="w-full h-full"/>
     <ground :height="groundHeight"/>
   </div>
   <game-over v-if="gameOverRef" :score="score" @replay="onReplay"/>

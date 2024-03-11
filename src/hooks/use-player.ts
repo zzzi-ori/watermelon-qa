@@ -18,8 +18,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   const isSetBlock = ref(false)
   const gameOverRef = ref(false)
 
-  const groundHeight = computed(() => window.innerHeight - heightRef.value)
-
+  const groundHeight = ref(0)
 
   const nextBlockRef = ref(0)
   const currentBlockRef = ref<Body | null>(null)
@@ -33,7 +32,8 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     const height = getDynamicCanvasHeight(width)
     widthRef.value = width
     heightRef.value = height
-
+    groundHeight.value = element.value?.clientHeight - height
+    console.log(element.value?.clientHeight, height, groundHeight.value)
     setNextBlock()
     addBlock()
 
