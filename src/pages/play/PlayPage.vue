@@ -1,5 +1,5 @@
 <template>
-  <ZHeader class="mt-6">
+  <ZHeader class="mt-3">
     <template v-slot:left>
       <BackButton @click="goBack"/>
     </template>
@@ -37,6 +37,8 @@ onMounted(() => {
   if (!userStore.nickName) {
     router.replace('/')
   }
+
+  window.scrollTo(0, 1)
 })
 
 // todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
