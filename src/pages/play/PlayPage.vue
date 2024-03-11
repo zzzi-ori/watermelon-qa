@@ -13,7 +13,13 @@
     <canvas ref="canvas" class="w-full h-full"/>
     <ground :height="groundHeight"/>
   </div>
-  <game-over v-if="gameOverRef" :score="score" @replay="onReplay"/>
+  <game-over
+      v-if="gameOverRef"
+      :score="score"
+      :nickname="userStore.nickName"
+      @replay="onReplay"
+      @back="goBack"
+  />
 </template>
 <script setup lang="ts">
 import {onBeforeUnmount, onMounted, ref} from 'vue'
@@ -31,7 +37,7 @@ import {useUserStore} from '../../stores/user.ts'
 const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
-const {score, replay, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canvas)
+const {score, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canvas)
 
 onMounted(() => {
   if (!userStore.nickName) {
@@ -48,7 +54,7 @@ onBeforeUnmount(() => {
 // todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
 
 const onReplay = () => {
-  replay()
+  router.replace('/play')
 }
 
 const goBack = () => {
