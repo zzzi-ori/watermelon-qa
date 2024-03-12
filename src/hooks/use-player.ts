@@ -33,7 +33,6 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     widthRef.value = width
     heightRef.value = height
     groundHeight.value = element.value?.clientHeight - height
-    console.log(element.value?.clientHeight, height, groundHeight.value)
     setNextBlock()
     addBlock()
 
@@ -73,7 +72,6 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((collision) => {
-      console.log(collision.bodyA.label, collision.bodyB.label, '충돌:', collision.bodyA.id, collision.bodyB.id)
       if (collision.bodyA.label === 'removed' || collision.bodyB.label === 'removed') {
         return
       }
@@ -126,7 +124,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
+    currentBlockRef.value = createBlock(9, widthRef.value / 2, 60, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()

@@ -16,7 +16,7 @@
         </div>
         <div class="w-full flex justify-between">
           <span>순위</span>
-          <span class="text-body-b">{{ 0 }}등/{{ 0 }}명</span>
+          <span class="text-body-b">{{ rank }}등/{{ total }}명</span>
         </div>
       </div>
       <div class="flex gap-4">
@@ -39,8 +39,10 @@ import gameOverZzio from '../../../assets/game-over-zzio.svg'
 import ZRoundButton from '../../../components/button/ZRoundButton.vue'
 import rankBanner from '../../../assets/rank-banner.png'
 import coinSm from '../../../assets/coin-sm.svg'
+import {usePostRank} from '../../../requests/use/usePostRank.ts'
+import {computed, onMounted} from 'vue'
 
-defineProps({
+const props = defineProps({
   nickname: {
     type: String,
     default: ''
@@ -50,6 +52,21 @@ defineProps({
     default: 0
   }
 })
+
+const {data, mutate} = usePostRank()
+
+const rank = computed(() => data?.value?.myRank)
+const total = computed(() => data?.value?.rankCount)
+
+onMounted(() => {
+  if (props.score && props.nickname) {
+    mutate({
+      score: props.score,
+      nickname: props.nickname,
+    })
+  }
+})
+
 </script>
 <style scoped>
 .text-shadow {
