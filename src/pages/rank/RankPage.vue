@@ -6,7 +6,7 @@
     <img :src="rank" alt="명예의 찌오당"/>
   </ZHeader>
   <div class="h-full overflow-y-scroll flex flex-col items-center px-6">
-  <span class="text-body-b mt-6 mb-4 text-dark-green">
+    <span class="text-body-b mt-6 mb-4 text-dark-green">
       {{ 0 }}명의 찌오가 함께했찌오
     </span>
     <div class="w-full pt-2 overflow-y-scroll">
@@ -15,9 +15,9 @@
         <img :src="medalZzio" class="mt-2" alt="찌오"/>
       </div>
       <RankList class="w-full" :list="list"/>
+      <Footer/>
     </div>
   </div>
-  <Footer/>
 </template>
 <script setup lang="ts">
 import rank from '../../assets/rank.svg'
