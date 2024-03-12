@@ -124,7 +124,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(9, widthRef.value / 2, 60, ratioRef.value, true)
+    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
