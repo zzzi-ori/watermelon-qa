@@ -19,6 +19,7 @@
       :nickname="userStore.nickName"
       @replay="onReplay"
       @back="goBack"
+      @rank="goRank"
   />
 </template>
 <script setup lang="ts">
@@ -59,5 +60,9 @@ const onReplay = () => {
 
 const goBack = () => {
   router.back()
+}
+
+const goRank = () => {
+  router.push('/rank')
 }
 </script>
