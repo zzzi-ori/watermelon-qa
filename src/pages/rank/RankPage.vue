@@ -24,15 +24,15 @@ import rank from '../../assets/rank.svg'
 import ZHeader from '../../components/ZHeader.vue'
 import BackButton from '../../components/button/BackButton.vue'
 
-// import {useRouter} from 'vue-router'
-import {useGetInfiniteRank} from '../../requests/use/useGetInfiniteRank.ts'
+import {useRouter} from 'vue-router'
+// import {useGetInfiniteRank} from '../../requests/use/useGetInfiniteRank.ts'
 import ZLabel from '../../components/ZLabel.vue'
 import medalZzio from '../../assets/medal-zzio.svg'
 import Footer from '../../components/Footer.vue'
 import RankList from '../../pages/rank/_components/RankList.vue'
 
-// const router = useRouter()
-const {fetchNextPage} = useGetInfiniteRank()
+const router = useRouter()
+// const {fetchNextPage} = useGetInfiniteRank()
 
 const test = {
   nickName: 'dain4',
@@ -73,7 +73,7 @@ const list = [
 ]
 
 const goBack = () => {
-  fetchNextPage()
-  // router.back()
+  // fetchNextPage()
+  router.back()
 }
 </script>

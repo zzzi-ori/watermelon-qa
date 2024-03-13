@@ -17,7 +17,7 @@
       v-if="gameOverRef"
       :score="score"
       :nickname="userStore.nickName"
-      @replay="onReplay"
+      @replay="replay"
       @back="goBack"
       @rank="goRank"
   />
@@ -38,7 +38,7 @@ import {useUserStore} from '../../stores/user.ts'
 const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
-const {score, groundHeight, nextBlockRef, gameOverRef} = usePlayer(canvas)
+const {score, groundHeight, nextBlockRef, gameOverRef, replay} = usePlayer(canvas)
 
 onMounted(() => {
   if (!userStore.nickName) {
@@ -53,10 +53,6 @@ onBeforeUnmount(() => {
 
 // todo canvas 미지원 브라우저에 대하여 matter.js 대응 체크
 // todo matter.js 하위 브라우저 대응 없을 시 canvas.getContext 함수 유무로 처리
-
-const onReplay = () => {
-  router.replace('/play')
-}
 
 const goBack = () => {
   router.back()

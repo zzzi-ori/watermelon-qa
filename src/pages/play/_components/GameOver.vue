@@ -16,7 +16,7 @@
         </div>
         <div class="w-full flex justify-between">
           <span>순위</span>
-          <span class="text-body-b">{{ rank }}등/{{ total }}명</span>
+          <span class="text-body-b">{{ rank }}등 / {{ total }}명</span>
         </div>
       </div>
       <div class="flex gap-4">
@@ -55,21 +55,15 @@ const props = defineProps({
 
 const {data, mutate} = usePostRank()
 
-const rank = computed(() => data?.value?.myRank)
-const total = computed(() => data?.value?.rankCount)
+const rank = computed(() => data?.value?.rank)
+const total = computed(() => data?.value?.count)
 
 onMounted(() => {
   if (props.score && props.nickname) {
     mutate({
       score: props.score,
-      nickname: props.nickname,
+      nickName: props.nickname,
     })
   }
 })
-
 </script>
-<style scoped>
-.text-shadow {
-  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000, 1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
-}
-</style>
