@@ -34,8 +34,8 @@ import Footer from '../../components/Footer.vue'
 import RankList from '../../pages/rank/_components/RankList.vue'
 import {useGetInfiniteRank} from '../../requests/use/useGetInfiniteRank.ts'
 import {computed, ref} from 'vue'
-import ZRoundButton from '@/components/button/ZRoundButton.vue'
-import back from '@/assets/back.svg'
+import ZRoundButton from '../../components/button/ZRoundButton.vue'
+import back from '../../assets/back.svg'
 
 const router = useRouter()
 const {data, fetchNextPage} = useGetInfiniteRank()
