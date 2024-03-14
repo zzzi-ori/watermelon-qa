@@ -7,17 +7,20 @@
   </ZHeader>
   <div class="h-full overflow-y-scroll flex flex-col items-center">
     <span class="text-body-b mt-6 mb-4 text-dark-green">
-      {{ 0 }}명의 찌오가 함께했찌오
+      {{ totalCountRef }}명의 찌오가 함께했찌오
     </span>
-    <div class="w-full pt-2 overflow-y-scroll px-6">
+    <div ref="container" @scroll="onScroll" class="w-full pt-2 overflow-y-scroll px-6">
       <div class="flex flex-col items-center mb-6">
-        <ZLabel text="1등 닉네임"/>
+        <ZLabel v-if="winner" :text="winner"/>
         <img :src="medalZzio" class="mt-2" alt="찌오"/>
       </div>
-      <RankList class="w-full" :list="list"/>
+      <RankList :list="list"/>
       <Footer/>
     </div>
   </div>
+  <ZRoundButton v-if="showUpButton" class="absolute right-6 bottom-6" @click="scrollUp">
+    <img :src="back" alt="위로가기" class="rotate-90"/>
+  </ZRoundButton>
 </template>
 <script setup lang="ts">
 import rank from '../../assets/rank.svg'
@@ -25,55 +28,64 @@ import ZHeader from '../../components/ZHeader.vue'
 import BackButton from '../../components/button/BackButton.vue'
 
 import {useRouter} from 'vue-router'
-// import {useGetInfiniteRank} from '../../requests/use/useGetInfiniteRank.ts'
 import ZLabel from '../../components/ZLabel.vue'
 import medalZzio from '../../assets/medal-zzio.svg'
 import Footer from '../../components/Footer.vue'
 import RankList from '../../pages/rank/_components/RankList.vue'
+import {useGetInfiniteRank} from '../../requests/use/useGetInfiniteRank.ts'
+import {computed, ref} from 'vue'
+import ZRoundButton from '@/components/button/ZRoundButton.vue'
+import back from '@/assets/back.svg'
 
 const router = useRouter()
-// const {fetchNextPage} = useGetInfiniteRank()
+const {data, fetchNextPage} = useGetInfiniteRank()
+const container = ref<HTMLElement | null>(null)
 
-const test = {
-  nickName: 'dain4',
-  score: 22222223,
-  rank: 4
-}
+const list = computed(() => {
+  if (!data) {
+    return []
+  }
+  return data.value?.pages.map((page) => page.rankList ?? []).flat()
+})
 
-const list = [
-  {
-    nickName: 'dain1',
-    score: 222222234,
-    rank: 1
-  },
-  {
-    nickName: 'dain2',
-    score: 123123123,
-    rank: 2
-  },
-  {
-    nickName: 'dain3',
-    score: 22222223,
-    rank: 3
-  },
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-  test,
-]
+const totalCountRef = computed(() =>
+  data.value?.pages[0].totalCount
+)
+
+const winner = computed(() =>
+  data.value?.pages[0].rankList[0]?.nickName
+)
+
+const showUpButton = ref(false)
 
 const goBack = () => {
-  // fetchNextPage()
   router.back()
+}
+
+const OFFSET = 300
+let isStarted = false
+
+// todo: scroll throttle or debounce
+const onScroll = () => {
+  if (!container.value) {
+    return
+  }
+  const {offsetHeight, scrollTop, scrollHeight} = container.value
+  showUpButton.value = scrollTop !== 0
+  const isEnd = offsetHeight + scrollTop > scrollHeight - OFFSET
+  if (isEnd && !isStarted) {
+    fetchNextPage()
+    isStarted = true
+  }
+  if (!isEnd) {
+    isStarted = false
+  }
+}
+
+const scrollUp = () => {
+  if (!container.value) {
+    return
+  }
+  container.value.scrollTo({top: 0, behavior: 'smooth'})
 }
 </script>
