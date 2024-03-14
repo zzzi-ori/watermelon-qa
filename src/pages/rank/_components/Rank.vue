@@ -34,7 +34,7 @@ const style = cva(
   , {
     variants: {
       type: {
-        'highlight': 'rounded-lg bg-white mt-1 border',
+        'highlight': 'rounded-lg bg-white mt-1 border-2',
         'normal': 'border-b-solid border-b-2 border-b-dark-green'
       }
     },

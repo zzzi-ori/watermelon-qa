@@ -12,7 +12,8 @@ export interface RankItem {
 }
 
 export interface GetRankResult {
-    getRankResponseList: RankItem[],
+    nextPageNumber: number
+    rankList: RankItem[],
     totalCount: number
 }
 
