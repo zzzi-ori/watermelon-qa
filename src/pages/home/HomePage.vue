@@ -28,27 +28,20 @@ import title from '../../assets/title-beta.svg'
 import illustration from '../../assets/illustration.svg'
 import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
-import {onBeforeUnmount, ref, watch} from 'vue'
+import {onBeforeUnmount, ref} from 'vue'
 import Notice from './_components/Notice.vue'
 import ZInput from '../../components/ZInput.vue'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '../../stores/user.ts'
+import {isOpen} from '../../utils/check-open.ts'
 
 const router = useRouter()
 const userStore = useUserStore()
 
 const closedRef = ref(false)
-const currentTime = ref(new Date())
-const targetTime = new Date('2024-03-17T19:00:00+09:00')
 const interval = setInterval(() => {
-  currentTime.value = new Date()
+  closedRef.value = !isOpen()
 }, 1000)
-
-watch(currentTime, () => {
-  if (currentTime.value > targetTime) {
-    closedRef.value = true
-  }
-})
 
 onBeforeUnmount(() => clearInterval(interval))
 

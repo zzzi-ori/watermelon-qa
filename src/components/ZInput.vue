@@ -23,7 +23,7 @@ const filled = computed(() => props.modelValue.length > 0)
 
 const onInupt = (event: Event) => {
   const target = event.target as HTMLInputElement
-  target.value = target.value.slice(0, 8)
+  target.value = target.value.replace(/^\s*/, '').slice(0, 8)
   emit('update:model-value', target.value)
 }
 
