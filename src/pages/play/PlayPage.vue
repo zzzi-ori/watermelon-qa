@@ -9,6 +9,9 @@
     </template>
   </ZHeader>
   <div class="relative flex-1">
+    <div class="absolute -z-10 top-1/2 -translate-y-1/2 w-full">
+      <img class="m-auto" alt="background" :src="playBackground"/>
+    </div>
     <next-block :next-index="nextBlockRef" class="absolute top-6"/>
     <canvas ref="canvas" class="w-full h-full"/>
     <ground :height="groundHeight"/>
@@ -34,6 +37,7 @@ import BackButton from '../../components/button/BackButton.vue'
 import {useRouter} from 'vue-router'
 import Player from './_components/Player.vue'
 import {useUserStore} from '../../stores/user.ts'
+import playBackground from '../../assets/play-background.svg'
 
 const userStore = useUserStore()
 const router = useRouter()
