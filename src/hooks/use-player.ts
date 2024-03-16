@@ -1,4 +1,4 @@
-import {Body, Engine, Events, Render, Runner, World, Composite} from 'matter-js'
+import {Body, Engine, Events, Render, Runner, World} from 'matter-js'
 import {blocks} from '../pages/play/setting.ts'
 import {createBlock, getBlockIndex, getDynamicCanvasHeight, setField} from '../utils'
 import {computed, onMounted, Ref, ref, watch} from 'vue'
@@ -115,6 +115,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   watch(collisions.value, (value) => {
+    console.log('collison updated')
     if (value.size > 0) {
       start()
     }
@@ -124,8 +125,8 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    currentBlockRef.value = createBlock(9, widthRef.value / 2, 60, ratioRef.value, true)
-    // currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
+    // currentBlockRef.value = createBlock(9, widthRef.value / 2, 60, ratioRef.value, true)
+    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
     setNextBlock()
@@ -166,16 +167,15 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   const replay = () => {
     scoreRef.value = 0
-    collisions.value = new Set()
+    collisions.value.clear()
     gameOverRef.value = false
     totalBlockCountRef.value = 0
+
+    World.clear(engine.world, false)
+    setField(engine.world, widthRef.value, heightRef.value)
+
     setNextBlock()
     addBlock()
-
-    engine.world.bodies.forEach((body) => {
-      Composite.remove(engine.world, body)
-    })
-    setField(engine.world, widthRef.value, heightRef.value)
   }
 
   return {engine, runner, score: scoreRef, collisions, drop, groundHeight, nextBlockRef, gameOverRef, replay}
