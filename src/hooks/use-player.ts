@@ -5,7 +5,11 @@ import {computed, onMounted, Ref, ref, watch} from 'vue'
 import {useTimer} from './use-timer.ts'
 
 export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
-  const engine = Engine.create({gravity: {x: 0, y: 1}})
+  const engine = Engine.create(
+    {
+      gravity: {x: 0, y: 0.4},
+      timing: {timeScale: 1.5}
+    })
   const runner = Runner.create()
 
   const scoreRef = ref(0)
@@ -72,19 +76,20 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   Events.on(engine, 'collisionStart', (event) => {
     event.pairs.forEach((collision) => {
-      if (collision.bodyA.label === 'removed' || collision.bodyB.label === 'removed') {
-        return
-      }
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line') {
         const circle = collision.bodyA.label === 'line' ? collision.bodyB.id : collision.bodyA.id
         collisions.value.add(circle)
       }
+
       if (collision.bodyA.label !== collision.bodyB.label) {
         return
       }
 
-      const index = Number(collision.bodyA.label)
+      if (collision.bodyA.label === 'removed' || collision.bodyB.label === 'removed') {
+        return
+      }
 
+      const index = Number(collision.bodyA.label)
       if (index === 10) {
         return
       }
@@ -115,7 +120,6 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   watch(collisions.value, (value) => {
-    console.log('collison updated')
     if (value.size > 0) {
       start()
     }
@@ -125,7 +129,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   })
 
   const addBlock = () => {
-    // currentBlockRef.value = createBlock(9, widthRef.value / 2, 60, ratioRef.value, true)
+    // currentBlockRef.value = createBlock(4, widthRef.value / 2, 60, ratioRef.value, true)
     currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
     isSetBlock.value = false
     World.add(engine.world, currentBlockRef.value)
