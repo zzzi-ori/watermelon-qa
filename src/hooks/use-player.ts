@@ -116,7 +116,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     })
   })
 
-  const {start, reset, count} = useTimer(3, () => {
+  const {start, reset} = useTimer(3, () => {
     endGame()
   })
 
@@ -182,5 +182,5 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     addBlock()
   }
 
-  return {engine, runner, score: scoreRef, collisions, drop, groundHeight, nextBlockRef, gameOverRef, replay, count}
+  return {engine, runner, score: scoreRef, collisions, drop, groundHeight, nextBlockRef, gameOverRef, replay}
 }
