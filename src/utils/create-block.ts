@@ -9,7 +9,7 @@ export const createBlock = (index: number, x: number, y: number, ratio: number, 
     label: String(index),
     render: {
       fillStyle: block.color,
-      lineWidth: 2.5,
+      lineWidth: 8,
       strokeStyle: lineColor,
       sprite: {
         texture: background,

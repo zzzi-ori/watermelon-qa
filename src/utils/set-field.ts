@@ -1,7 +1,7 @@
 import {Bodies, Composite, World} from 'matter-js'
 
 export const setField = (world: World, width: number, height: number) => {
-  const bottom = Bodies.rectangle(width / 2, height, width, 10, {
+  const bottom = Bodies.rectangle(width / 2, height, width, 30, {
     isStatic: true,
     restitution: 1,
     render: {fillStyle: '#81685A'}
