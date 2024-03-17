@@ -14,6 +14,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   const scoreRef = ref(0)
   const collisions = ref<Set<number>>(new Set())
+  const hasLineCollisions = computed(() => collisions.value.size > 0)
 
   const widthRef = ref(0)
   const heightRef = ref(0)
@@ -119,13 +120,12 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     endGame()
   })
 
-  watch(collisions.value, (value) => {
-    if (value.size > 0) {
+  watch(hasLineCollisions, (value) => {
+    if (value) {
       start()
+      return
     }
-    if (value.size === 0) {
-      reset()
-    }
+    reset()
   })
 
   const addBlock = () => {
