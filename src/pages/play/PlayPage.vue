@@ -2,6 +2,7 @@
   <ZHeader class="mt-3">
     <template v-slot:left>
       <BackButton @click="goBack"/>
+      <span>count: {{ count }}</span>
     </template>
     <Score :score="score"/>
     <template v-slot:right>
@@ -42,7 +43,7 @@ import playBackground from '../../assets/play-background.svg'
 const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
-const {score, groundHeight, nextBlockRef, gameOverRef, replay} = usePlayer(canvas)
+const {score, groundHeight, nextBlockRef, gameOverRef, replay, count} = usePlayer(canvas)
 
 onMounted(() => {
   if (!userStore.nickName) {
