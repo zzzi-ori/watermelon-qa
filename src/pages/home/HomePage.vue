@@ -4,7 +4,7 @@
     <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-8"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
     <div v-if="closedRef" class="flex flex-col items-center w-full">
-      <ZButton color="secondary" :disabled="true">3월 말 오픈 예정</ZButton>
+      <ZButton color="secondary" :disabled="true">4월 초 오픈 예정</ZButton>
     </div>
     <div v-else class="flex flex-col items-center w-full">
       <ZInput v-model="userStore.nickName"/>
