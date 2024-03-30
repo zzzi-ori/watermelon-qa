@@ -1,10 +1,11 @@
 <template>
   <div :class="style({type})">
     <div class="min-w-14">
-      <span v-if="item?.rank && item?.rank > 3 ">{{ item?.rank }}</span>
+      <span v-if="item?.rank && item?.rank > 4 ">{{ item?.rank }}</span>
       <img v-else-if="item?.rank===1" :src="medal1" alt="1st"/>
       <img v-else-if="item?.rank===2" :src="medal2" alt="1st"/>
       <img v-else-if="item?.rank===3" :src="medal3" alt="1st"/>
+      <img v-else-if="item?.rank===4" :src="medal4" alt="1st"/>
     </div>
     <span class="flex-1 text-caption-b">{{ item?.nickName }}</span>
     <div class="flex text-body-b">
@@ -19,6 +20,7 @@ import {RankItem} from '../../../requests/fetch/getRank.ts'
 import medal1 from '../../../assets/medal1.svg'
 import medal2 from '../../../assets/medal2.svg'
 import medal3 from '../../../assets/medal3.svg'
+import medal4 from '../../../assets/medal4.svg'
 import coinSm from '../../../assets/coin-sm.svg'
 import {cva} from 'class-variance-authority'
 
@@ -29,7 +31,7 @@ const props = defineProps({
 })
 
 const type = computed(() => {
-  if (props?.item && props.item?.rank <= 3) {
+  if (props?.item && props.item?.rank <= 4) {
     return 'highlight'
   }
   return 'normal'
