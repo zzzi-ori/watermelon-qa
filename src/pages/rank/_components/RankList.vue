@@ -1,5 +1,7 @@
 <template>
-  <Rank v-for="item in list" :item="item" v-bind:key="item?.rank"/>
+  <div>
+    <Rank v-for="item in list" :item="item" v-bind:key="item?.rank"/>
+  </div>
 </template>
 <script setup lang="ts">
 
