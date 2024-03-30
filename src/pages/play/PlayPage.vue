@@ -12,7 +12,7 @@
     <div class="absolute -z-10 top-1/2 -translate-y-1/2 w-full">
       <img class="m-auto" alt="background" :src="playBackground"/>
     </div>
-    <next-block :next-index="nextBlockRef" class="absolute top-6"/>
+    <next-block :next-index="nextBlockRef" class="pointer-events-none absolute top-6"/>
     <canvas ref="canvas" class="w-full h-full"/>
     <ground :height="groundHeight"/>
   </div>
