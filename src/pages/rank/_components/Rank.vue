@@ -45,7 +45,7 @@ const style = cva(
     variants: {
       type: {
         'highlight': 'rounded-lg bg-white mt-1 border-2 pl-2 pr-4',
-        'normal': 'border-b-solid border-b-2 border-b-dark-green px-4'
+        'normal': 'border-b-solid border-b-2 last:border-b-0 border-b-dark-green px-4'
       }
     },
   })
