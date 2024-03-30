@@ -29,6 +29,8 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
   const currentBlockRef = ref<Body | null>(null)
   const totalBlockCountRef = ref(0)
 
+  const canvasOffsetX = computed(() => element.value?.getBoundingClientRect().x ?? 0)
+
   onMounted(() => {
     if (!element.value) {
       return
@@ -67,7 +69,10 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     })
 
     element.value.addEventListener('touchmove', (event: TouchEvent) => {
-      onDrag(event.touches[0].clientX)
+      const x = event.touches[0].clientX - canvasOffsetX.value
+      if (element?.value?.clientWidth && x > 0 && x < element.value.clientWidth) {
+        onDrag(x)
+      }
     }, {passive: true})
 
     element.value.addEventListener('touchend', () => {
