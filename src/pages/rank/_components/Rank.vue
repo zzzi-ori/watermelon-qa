@@ -39,13 +39,13 @@ const type = computed(() => {
 
 const style = cva(
   [
-    'flex w-full text-body-b px-4 py-2',
+    'flex w-full text-body-b py-2',
   ]
   , {
     variants: {
       type: {
-        'highlight': 'rounded-lg bg-white mt-1 border-2',
-        'normal': 'border-b-solid border-b-2 border-b-dark-green'
+        'highlight': 'rounded-lg bg-white mt-1 border-2 pl-2 pr-4',
+        'normal': 'border-b-solid border-b-2 border-b-dark-green px-4'
       }
     },
   })
