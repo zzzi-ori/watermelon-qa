@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import PlayPage from '../pages/play/PlayPage.vue'
 import HomePage from '../pages/home/HomePage.vue'
 import RankPage from '../pages/rank/RankPage.vue'
-import DevHomePage from '../dev-pages/home/DevHomePage.vue'
+import DevHomePage from '../event-pages/home/DevHomePage.vue'
 
 const routes = [
   {
