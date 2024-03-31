@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-col flex-1 justify-center items-center pt-3 px-6">
     <img :src="zzioGame" alt="zzio game"/>
-    <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-8"/>
+    <img :src="title" alt="황금 찌오를 찾아라 beta" class="mt-8 mb-2"/>
+    <Counter :target="closeTime" :current="currentRef"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
     <ZInput v-model="userStore.nickName"/>
     <ZButton @click="onClickPlay" color="primary" :disabled="!userStore.nickName" class="mt-2">게임 시작</ZButton>
@@ -24,11 +25,12 @@ import title from '../../assets/title-event.svg'
 import illustration from '../../assets/illustration.svg'
 import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
-import {computed, onBeforeUnmount, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import Notice from './_components/Notice.vue'
 import ZInput from '../../components/ZInput.vue'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '../../stores/user.ts'
+import Counter from './_components/Counter.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -41,12 +43,12 @@ const isOpen = (current: Date) => {
   return current < closeTime
 }
 
-const interval = setInterval(() => {
-  currentRef.value = new Date()
-}, 1000)
-
-
-onBeforeUnmount(() => clearInterval(interval))
+onMounted(() => {
+  const interval = setInterval(() => {
+    currentRef.value = new Date()
+  }, 1000)
+  return () => clearInterval(interval)
+})
 
 const onClickPlay = () => {
   router.push('/play')
