@@ -3,7 +3,7 @@
     <template v-slot:left>
       <BackButton @click="goBack"/>
     </template>
-    <Score :score="score"/>
+    <Score :score="scoreRef"/>
     <template v-slot:right>
       <Player :name="userStore.nickName"/>
     </template>
@@ -14,11 +14,11 @@
     </div>
     <next-block :next-index="nextBlockRef" class="pointer-events-none absolute top-6"/>
     <canvas ref="canvas" class="w-full h-full"/>
-    <ground :height="groundHeight"/>
+    <ground :height="groundHeightRef"/>
   </div>
   <game-over
       v-if="gameOverRef"
-      :score="score"
+      :score="scoreRef"
       :nickname="userStore.nickName"
       @replay="replay"
       @back="goBack"
@@ -42,7 +42,8 @@ import playBackground from '../../assets/play-background.svg'
 const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
-const {score, groundHeight, nextBlockRef, gameOverRef, replay} = usePlayer(canvas)
+
+const {replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef} = usePlayer(canvas)
 
 onMounted(() => {
   if (!userStore.nickName) {

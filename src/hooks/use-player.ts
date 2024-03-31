@@ -1,10 +1,12 @@
 import {Body, Engine, Events, Render, Runner, World} from 'matter-js'
 import {blocks} from '../pages/play/setting.ts'
 import {createBlock, getBlockIndex, getDynamicCanvasHeight, setField} from '../utils'
-import {computed, onMounted, Ref, ref, watch} from 'vue'
+import {onMounted, Ref, ref} from 'vue'
 import {useTimer} from './use-timer.ts'
 
-export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
+export const usePlayer = (
+  element: Ref<HTMLCanvasElement | undefined>,
+) => {
   const engine = Engine.create(
     {
       gravity: {x: 0, y: 0.4},
@@ -12,38 +14,34 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     })
   const runner = Runner.create()
 
-  const scoreRef = ref(0)
-  const collisions = ref<Set<number>>(new Set())
-  const hasLineCollisions = computed(() => collisions.value.size > 0)
+  const collisions = new Set()
 
-  const widthRef = ref(0)
-  const heightRef = ref(0)
-  const ratioRef = computed(() => widthRef.value / 380)
+  let width = 0
+  let height = 0
+  let ratio = 1
+  const groundHeightRef = ref(0)
 
-  const isSetBlock = ref(false)
+  let isSetBlock: boolean = false
+  let currentBlock: Body | undefined = undefined
+  let totalBlockCount = 0
+  let canvasOffsetX = 0
+
   const gameOverRef = ref(false)
-
-  const groundHeight = ref(0)
-
   const nextBlockRef = ref(0)
-  const currentBlockRef = ref<Body | null>(null)
-  const totalBlockCountRef = ref(0)
-
-  const canvasOffsetX = computed(() => element.value?.getBoundingClientRect().x ?? 0)
+  const scoreRef = ref(0)
 
   onMounted(() => {
     if (!element.value) {
       return
     }
-    const width = element.value.clientWidth
-    const height = getDynamicCanvasHeight(width)
-    widthRef.value = width
-    heightRef.value = height
-    groundHeight.value = element.value?.clientHeight - height
+    width = element.value.clientWidth
+    height = getDynamicCanvasHeight(width)
+    ratio = width / 380
+    canvasOffsetX = element.value?.getBoundingClientRect().x
+    groundHeightRef.value = element.value?.clientHeight - height
     setNextBlock()
     addBlock()
 
-    // //todo 화면 너비에 다른 블럭 사이즈 조절
     const render = Render.create({
       canvas: element.value,
       engine,
@@ -69,7 +67,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     })
 
     element.value.addEventListener('touchmove', (event: TouchEvent) => {
-      const x = event.touches[0].clientX - canvasOffsetX.value
+      const x = event.touches[0].clientX - canvasOffsetX
       if (element?.value?.clientWidth && x > 0 && x < element.value.clientWidth) {
         onDrag(x)
       }
@@ -84,7 +82,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     event.pairs.forEach((collision) => {
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line') {
         const circle = collision.bodyA.label === 'line' ? collision.bodyB.id : collision.bodyA.id
-        collisions.value.add(circle)
+        addCollisions(circle)
       }
 
       if (collision.bodyA.label !== collision.bodyB.label) {
@@ -105,7 +103,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
       scoreRef.value = scoreRef.value + (blocks[index].score)
 
-      const newBlock = createBlock(index + 1, collision.collision.supports[0].x, collision.collision.supports[0].y, ratioRef.value)
+      const newBlock = createBlock(index + 1, collision.collision.supports[0].x, collision.collision.supports[0].y, ratio)
       World.remove(engine.world, [collision.bodyA, collision.bodyB])
       World.add(engine.world, newBlock)
     }
@@ -116,7 +114,7 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     event.pairs.forEach((collision) => {
       if (collision.bodyA.label === 'line' || collision.bodyB.label === 'line') {
         const circle = collision.bodyA.label === 'line' ? collision.bodyB.id : collision.bodyA.id
-        collisions.value.delete(circle)
+        removeCollisions(circle)
       }
     })
   })
@@ -125,36 +123,46 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     endGame()
   })
 
-  watch(hasLineCollisions, (value) => {
-    if (value) {
+  const setLineCollisionTimer = () => {
+    if (collisions.size > 0) {
       start()
       return
     }
     reset()
-  })
+  }
+
+  const addCollisions = (id: number) => {
+    collisions.add(id)
+    setLineCollisionTimer()
+  }
+
+  const removeCollisions = (id: number) => {
+    collisions.delete(id)
+    setLineCollisionTimer()
+  }
 
   const addBlock = () => {
     // currentBlockRef.value = createBlock(4, widthRef.value / 2, 60, ratioRef.value, true)
-    currentBlockRef.value = createBlock(nextBlockRef.value, widthRef.value / 2, 60, ratioRef.value, true)
-    isSetBlock.value = false
-    World.add(engine.world, currentBlockRef.value)
+    currentBlock = createBlock(nextBlockRef.value, width / 2, 60, ratio, true)
+    isSetBlock = false
+    World.add(engine.world, currentBlock)
     setNextBlock()
   }
 
   const setNextBlock = () => {
-    totalBlockCountRef.value += 1
-    nextBlockRef.value = getBlockIndex(totalBlockCountRef.value)
+    totalBlockCount += 1
+    nextBlockRef.value = getBlockIndex(totalBlockCount)
   }
 
   const drop = () => {
     if (gameOverRef.value) {
       return
     }
-    if (!currentBlockRef.value || isSetBlock.value) {
+    if (!currentBlock || isSetBlock) {
       return
     }
-    isSetBlock.value = true
-    Body.setStatic(currentBlockRef.value, false)
+    isSetBlock = true
+    Body.setStatic(currentBlock, false)
     setTimeout(() => {
       addBlock()
     }, 1000)
@@ -164,10 +172,10 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
     if (gameOverRef.value) {
       return
     }
-    if (!currentBlockRef.value || isSetBlock.value) {
+    if (!currentBlock || isSetBlock) {
       return
     }
-    Body.setPosition(currentBlockRef.value, {x, y: 60})
+    Body.setPosition(currentBlock, {x, y: 60})
   }
 
   const endGame = () => {
@@ -176,16 +184,20 @@ export const usePlayer = (element: Ref<HTMLCanvasElement | undefined>) => {
 
   const replay = () => {
     scoreRef.value = 0
-    collisions.value.clear()
+
+    collisions.clear()
+    reset()
+
     gameOverRef.value = false
-    totalBlockCountRef.value = 0
+
+    totalBlockCount = 0
 
     World.clear(engine.world, false)
-    setField(engine.world, widthRef.value, heightRef.value)
+    setField(engine.world, width, height)
 
     setNextBlock()
     addBlock()
   }
 
-  return {engine, runner, score: scoreRef, collisions, drop, groundHeight, nextBlockRef, gameOverRef, replay}
+  return {replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef}
 }
