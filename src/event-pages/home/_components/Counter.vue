@@ -1,12 +1,15 @@
 <template>
-  <div v-if="remainingTime > 0">
-    <span>이벤트 종료 </span>
+  <div v-if="remainingTime > 0"
+       class="w-full bg-green border-y-2 border-white text-white text-body-b flex justify-center items-center gap-2 py-1.5">
+    <img :src="event" alt="event"/>
+    <span>이벤트 종료까지</span>
     <span v-if="remainingDays > 1">D-{{ remainingDays }}</span>
     <span v-else>{{ formattedTime }}</span>
   </div>
 </template>
 <script setup lang="ts">
 import {computed} from 'vue'
+import event from '../../../assets/event-white.svg'
 
 const props = defineProps({
   target: {type: Date, default: new Date()},

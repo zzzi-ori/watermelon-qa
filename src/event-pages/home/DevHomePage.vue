@@ -1,8 +1,10 @@
 <template>
-  <div class="flex flex-col flex-1 justify-center items-center pt-3 px-6">
-    <img :src="zzioGame" alt="zzio game"/>
+  <a href="https://www.instagram.com/zzzi_ori" target="_blank">
+    <Counter :target="closeTime" :current="currentRef" class="mt-3"/>
+  </a>
+  <div class="flex flex-col flex-1 items-center px-6">
+    <img :src="zzioGame" alt="zzio game" class="mt-6"/>
     <img :src="title" alt="황금 찌오를 찾아라 beta" class="mt-8 mb-2"/>
-    <Counter :target="closeTime" :current="currentRef"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
     <ZInput v-model="userStore.nickName"/>
     <ZButton @click="onClickPlay" color="primary" :disabled="!userStore.nickName" class="mt-2">게임 시작</ZButton>
@@ -57,5 +59,4 @@ const onClickPlay = () => {
 const onClickRank = () => {
   router.push('/rank')
 }
-
 </script>
