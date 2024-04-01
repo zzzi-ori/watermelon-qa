@@ -17,7 +17,7 @@
     <ground :height="groundHeight"/>
   </div>
   <game-over
-      v-if="gameOverRef"
+      v-if="true"
       :score="score"
       :nickname="userStore.nickName"
       @replay="replay"

@@ -43,6 +43,18 @@ export default {
             lineHeight: '',
             fontWeight: '700'
           }],
+        'banner-r': [
+          '0.875rem', // 12px
+          {
+            lineHeight: '',
+            fontWeight: '500'
+          }],
+        'banner-b': [
+          '0.875rem', // 12px
+          {
+            lineHeight: '',
+            fontWeight: '900'
+          }],
       },
       colors: {
         primary: '#FEBE31',
@@ -56,6 +68,8 @@ export default {
           '15': 'rgba(0, 0, 0, 0.15)',
           '50': 'rgba(0, 0, 0, 0.5)',
         },
+        'gradient-yellow': '#FFEC45',
+        'gradient-pink': '#FF8181',
       }
     },
   },
