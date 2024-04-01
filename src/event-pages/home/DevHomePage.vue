@@ -4,7 +4,7 @@
   </a>
   <div class="flex flex-col flex-1 items-center px-6">
     <img :src="zzioGame" alt="zzio game" class="mt-6"/>
-    <img :src="title" alt="황금 찌오를 찾아라 beta" class="mt-8 mb-2"/>
+    <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-3"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
     <ZInput v-model="userStore.nickName"/>
     <ZButton @click="onClickPlay" color="primary" :disabled="!userStore.nickName" class="mt-2">게임 시작</ZButton>
@@ -23,7 +23,7 @@
 </template>
 <script setup lang="ts">
 import zzioGame from '../../assets/zzio-game.svg'
-import title from '../../assets/title-event.svg'
+import title from '../../assets/title.svg'
 import illustration from '../../assets/illustration.svg'
 import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
