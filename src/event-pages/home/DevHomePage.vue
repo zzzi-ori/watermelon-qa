@@ -39,7 +39,7 @@ const userStore = useUserStore()
 
 const currentRef = ref<Date>(new Date())
 const isOpenRef = computed<boolean | undefined>(() => isOpen(currentRef.value))
-const closeTime = new Date('2024-04-19T23:59:59+09:00')
+const closeTime = new Date('2024-03-19T23:59:59+09:00')
 
 const isOpen = (current: Date) => {
   return current < closeTime
