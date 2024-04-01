@@ -6,6 +6,10 @@
     <img :src="zzioGame" alt="zzio game" class="mt-6"/>
     <img :src="title" alt="황금 찌오를 찾아라 beta" class="my-3"/>
     <img :src="illustration" alt="찌오 이미지" class="mb-6"/>
+    <div class="w-full flex text-caption-r text-dark-green mb-2">
+      <img :src="info" alt="info" class="mr-[2px]"/>
+      <span>{{ isOpenRef ? '랭킹에 올라갈 ' : '' }}닉네임을 8자 이내로 적으찌오</span>
+    </div>
     <ZInput v-model="userStore.nickName"/>
     <ZButton @click="onClickPlay" color="primary" :disabled="!userStore.nickName" class="mt-2">게임 시작</ZButton>
     <ZButton
@@ -24,6 +28,7 @@
 <script setup lang="ts">
 import zzioGame from '../../assets/zzio-game.svg'
 import title from '../../assets/title.svg'
+import info from '../../assets/info.svg'
 import illustration from '../../assets/illustration.svg'
 import ZButton from '../../components/button/ZButton.vue'
 import Footer from '../../components/Footer.vue'
@@ -39,7 +44,7 @@ const userStore = useUserStore()
 
 const currentRef = ref<Date>(new Date())
 const isOpenRef = computed<boolean | undefined>(() => isOpen(currentRef.value))
-const closeTime = new Date('2024-03-19T23:59:59+09:00')
+const closeTime = new Date('2024-04-19T23:59:59+09:00')
 
 const isOpen = (current: Date) => {
   return current < closeTime
