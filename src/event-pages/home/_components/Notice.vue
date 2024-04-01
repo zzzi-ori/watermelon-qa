@@ -11,13 +11,13 @@
 import event from '@/assets/event.svg'
 import {computed} from 'vue'
 
-defineProps({
+const props = defineProps({
   closed: {type: Boolean, default: false},
 })
 
-// todo: 내용 업데이트
-const textRef = computed(() => closed ?
-  ['현재 찌오 게임 베타 버전은 종료 되었으며, 정식 버전은 24.03.24(일) 이후 오픈 예정입니다.'] :
-  ['베타 버전은 24.03.18 (월) 19시 까지만 시범 운영 예정이며, 정식 버전은 24.03.24 (일) 이후 오픈 예정입니다.',
-    '베타 버전이 종료된 이후에는 모든 랭킹이 초기화 됩니다.'])
+const textRef = computed(() => props.closed ?
+  ['현재 찌오 게임 이벤트는 종료 되었으며, 당첨자는 4월 26일 (금) 이후 찌오 인스타그램 (@zzzi_ori)에서 확인하실 수 있습니다.', '찌오 게임은 언제든 자유롭게 플레이 가능하나, 실시간 랭킹은 확인하실 수 없습니다.'] :
+  ['이벤트는 4월 19일 (금) 23시 59분까지 참여 가능하며, 종료 이후에도 찌오 게임을 언제든 플레이할 수 있습니다.',
+    '실시간 랭킹은 이벤트 종료와 동시에 확인이 불가합니다.',
+    '자세한 내용은 이벤트 페이지 또는 찌오 인스타그램 (@zzzi_ori)에서 확인하세요.'])
 </script>
