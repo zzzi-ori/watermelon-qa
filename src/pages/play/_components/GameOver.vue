@@ -1,5 +1,15 @@
 <template>
-  <div class="absolute inset-0 flex items-center justify-center z-50 bg-transBlack-50 px-6">
+  <div class="absolute inset-0 flex flex-col items-center justify-center z-50 bg-transBlack-50 px-6">
+    <div class="bg-gradient-to-r relative from-gradient-yellow to-gradient-pink p-4 flex items-center rounded-2xl border-2 border-black mb-2">
+      <span class="text-banner-r mr-14">
+        잠시만요!
+        <br/>
+        <strong class="text-banner-b">이벤트 참여하면 상품</strong>
+        을 받을 수 있어요
+      </span>
+      <img :src="giftZzio" alt="gift-zzio" class="absolute right-[36px] bottom-0 w-[60.4px] h-[64.75px]"/>
+      <img :src="arrow" alt="arrow" class="rotate-180 h-6"/>
+    </div>
     <div class="bg-white flex flex-col gap-6 px-6 py-6 justify-center items-center rounded-2xl border-2 border-black">
       <img :src="gameOver" alt="game over"/>
       <div class="text-body-b px-2 border-2 rounded">
@@ -39,6 +49,8 @@ import gameOverZzio from '../../../assets/game-over-zzio.svg'
 import ZRoundButton from '../../../components/button/ZRoundButton.vue'
 import rankBanner from '../../../assets/rank-banner.png'
 import coinSm from '../../../assets/coin-sm.svg'
+import giftZzio from '@/assets/gift-zzio.svg'
+import arrow from '@/assets/arrow.svg'
 import {usePostRank} from '../../../requests/use/usePostRank.ts'
 import {computed, onMounted} from 'vue'
 
