@@ -6,6 +6,7 @@ export interface PostRankParams {
 }
 
 export interface PostRankResult {
+    userId: number
     rank: number
     count: number
     currentTime: number
