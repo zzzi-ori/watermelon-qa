@@ -54,6 +54,7 @@ import giftZzio from '@/assets/gift-zzio.svg'
 import arrow from '@/assets/arrow.svg'
 import {usePostRank} from '../../../requests/use/usePostRank.ts'
 import {computed, onMounted, watchEffect} from 'vue'
+import {usePostEvent} from '@/requests/use/usePostEvent.ts'
 
 const props = defineProps({
   nickname: {
@@ -67,15 +68,11 @@ const props = defineProps({
 })
 
 const {data, mutate} = usePostRank()
+// const {mutate: mutateEvent} = usePostEvent()
 
 const rank = computed(() => data?.value?.rank)
 const total = computed(() => data?.value?.count)
-const userId = computed(() => data?.value?.userId)
-
-// todo: watchEffect 지우기 (테스트 코드)
-watchEffect(() => {
-  console.log('userID', userId.value)
-})
+// const userId = computed(() => data?.value?.userId)
 
 const isOpen = () => {
   const current = new Date()
