@@ -1,6 +1,7 @@
 <template>
   <div class="absolute inset-0 flex flex-col items-center justify-center z-50 bg-transBlack-50 px-6">
-    <div class="bg-gradient-to-r relative from-gradient-yellow to-gradient-pink p-4 flex items-center rounded-2xl border-2 border-black mb-2">
+    <div
+        class="bg-gradient-to-r relative from-gradient-yellow to-gradient-pink p-4 flex items-center rounded-2xl border-2 border-black mb-2">
       <span class="text-banner-r mr-14">
         잠시만요!
         <br/>
@@ -52,7 +53,7 @@ import coinSm from '../../../assets/coin-sm.svg'
 import giftZzio from '@/assets/gift-zzio.svg'
 import arrow from '@/assets/arrow.svg'
 import {usePostRank} from '../../../requests/use/usePostRank.ts'
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, watchEffect} from 'vue'
 
 const props = defineProps({
   nickname: {
@@ -69,9 +70,22 @@ const {data, mutate} = usePostRank()
 
 const rank = computed(() => data?.value?.rank)
 const total = computed(() => data?.value?.count)
+const userId = computed(() => data?.value?.userId)
+
+// todo: watchEffect 지우기 (테스트 코드)
+watchEffect(() => {
+  console.log('userID', userId.value)
+})
+
+const isOpen = () => {
+  const current = new Date()
+  const closeTime = new Date('2024-04-19T23:59:59+09:00')
+  return current < closeTime
+}
 
 onMounted(() => {
-  if (props.score && props.nickname) {
+  // 이벤트 기간 지나지 않았을 경우 rank 등록
+  if (props.score && props.nickname && isOpen()) {
     mutate({
       score: props.score,
       nickName: props.nickname,
