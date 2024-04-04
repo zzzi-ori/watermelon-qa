@@ -53,8 +53,8 @@ import coinSm from '../../../assets/coin-sm.svg'
 import giftZzio from '@/assets/gift-zzio.svg'
 import arrow from '@/assets/arrow.svg'
 import {usePostRank} from '../../../requests/use/usePostRank.ts'
-import {computed, onMounted, watchEffect} from 'vue'
-import {usePostEvent} from '@/requests/use/usePostEvent.ts'
+import {computed, onMounted} from 'vue'
+// import {usePostEvent} from '../../../requests/use/usePostEvent.ts'
 
 const props = defineProps({
   nickname: {
