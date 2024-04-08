@@ -1,26 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PlayPage from '../pages/play/PlayPage.vue'
-import RankPage from '../pages/rank/RankPage.vue'
-import DevHomePage from '../event-pages/home/DevHomePage.vue'
-// import Maintenance from '@/event-pages/home/MaintenancePage.vue'
+// import PlayPage from '../pages/play/PlayPage.vue'
+// import RankPage from '../pages/rank/RankPage.vue'
+// import DevHomePage from '../event-pages/home/DevHomePage.vue'
+import MaintenancePage from '@/event-pages/home/MaintenancePage.vue'
 
 const routes = [
-  {
-    path: '/',
-    component: DevHomePage,
-  },
   // {
   //   path: '/',
-  //   component: MaintenancePage,
+  //   component: DevHomePage,
   // },
   {
-    path: '/play',
-    component: PlayPage,
+    path: '/',
+    component: MaintenancePage,
   },
-  {
-    path: '/rank',
-    component: RankPage,
-  },
+  // {
+  //   path: '/play',
+  //   component: PlayPage,
+  // },
+  // {
+  //   path: '/rank',
+  //   component: RankPage,
+  // },
 ]
 
 const router = createRouter({
@@ -28,10 +28,10 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to, from) => {
-//   if (to.fullPath !== '/') {
-//     return { path: '/' }
-//   }
-// })
+router.beforeEach((to) => {
+  if (to.fullPath !== '/') {
+    return { path: '/' }
+  }
+})
 
 export default router
