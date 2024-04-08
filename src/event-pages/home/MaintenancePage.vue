@@ -14,7 +14,7 @@
         점검이 종료되면 다시 게임을 플레이 할 수 있습니다.
       </span>
     </div>
-    <ZButton :disabled="true" class="mt-6" color="primary"> 7:00 AM 점검 종료</ZButton>
+    <ZButton :disabled="true" class="mt-6" color="primary"> 7:30 AM 점검 종료</ZButton>
     <Notice :closed="!isOpenRef" />
   </div>
   <Footer />
