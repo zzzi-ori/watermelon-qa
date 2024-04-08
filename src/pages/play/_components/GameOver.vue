@@ -133,6 +133,7 @@ import ZCheckbox from '@/components/ZCheckbox.vue'
 import PrivacyTerm from '@/pages/play/_components/PrivacyTerm.vue'
 import { getGameId } from '@/utils/get-game-id.ts'
 import { isEventOpen } from '@/utils/check-event-open.ts'
+import { compressLog } from '@/utils/compress-log.ts'
 
 const props = defineProps({
   nickname: {
@@ -142,6 +143,10 @@ const props = defineProps({
   score: {
     type: Number,
     default: 0,
+  },
+  logData: {
+    type: String,
+    default: '',
   },
 })
 
@@ -192,6 +197,7 @@ onMounted(() => {
       score: props.score,
       nickName: props.nickname,
       gameId: getGameId(),
+      logData: compressLog(props.logData),
     })
   }
 })

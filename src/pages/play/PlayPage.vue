@@ -20,6 +20,7 @@
     v-if="gameOverRef"
     :score="scoreRef"
     :nickname="userStore.nickName"
+    :log-data="logRef"
     @replay="replay"
     @back="goBack"
     @rank="goRank"
@@ -43,7 +44,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const canvas = ref<HTMLCanvasElement>()
 
-const { replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef } = usePlayer(canvas)
+const { replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef, logRef } = usePlayer(canvas)
 
 onMounted(() => {
   if (!userStore.nickName) {

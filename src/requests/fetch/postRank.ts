@@ -4,6 +4,7 @@ export interface PostRankParams {
   nickName: string
   score: number
   gameId: string
+  logData: string
 }
 
 export interface PostRankResult {

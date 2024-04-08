@@ -25,10 +25,12 @@ export const usePlayer = (
   let currentBlock: Body | undefined = undefined
   let totalBlockCount = 0
   let canvasOffsetX = 0
+  let log = ''
 
   const gameOverRef = ref(false)
   const nextBlockRef = ref(0)
   const scoreRef = ref(0)
+  const logRef = ref('')
 
   onMounted(() => {
     if (!element.value) {
@@ -100,12 +102,15 @@ export const usePlayer = (
       if (index === 10) {
         return
       }
+      log = `${log} -${collision.bodyA.label} -${collision.bodyB.label}`
+      // console.log('a', log)
 
       collision.bodyA.label = 'removed'
       collision.bodyB.label = 'removed'
 
       scoreRef.value = scoreRef.value + (blocks[index].score)
-
+      log = `${log} ${index + 1}`
+      // console.log('b', log)
       const newBlock = createBlock(index + 1, collision.collision.supports[0].x, collision.collision.supports[0].y, ratio)
       World.remove(engine.world, [collision.bodyA, collision.bodyB])
       World.add(engine.world, newBlock)
@@ -165,6 +170,8 @@ export const usePlayer = (
       return
     }
     isSetBlock = true
+    log = `${log} ${currentBlock.label}`
+    // console.log('c', log)
     Body.setStatic(currentBlock, false)
     setTimeout(() => {
       addBlock()
@@ -182,6 +189,7 @@ export const usePlayer = (
   }
 
   const endGame = () => {
+    logRef.value = log
     gameOverRef.value = true
   }
 
@@ -202,5 +210,5 @@ export const usePlayer = (
     addBlock()
   }
 
-  return { replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef }
+  return { replay, nextBlockRef, groundHeightRef, gameOverRef, scoreRef, logRef }
 }
