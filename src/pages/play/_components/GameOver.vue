@@ -8,13 +8,12 @@
       <div :class="topBannerStyle">
         <div @click="toggleBanner('')" class="flex items-center justify-end">
           <div v-if="!isSuccess" class="text-banner-r mr-auto">
-            <span>잠시만요!</span><br />
-            <span class="text-banner-b">이벤트 참여하면 상품</span>
-            <span>을 받을 수 있어요</span>
+            <span>내 점수가 만족스럽다면?</span><br />
+            <span class="text-banner-b">찌오 경품 이벤트에 참여하세요!</span>
           </div>
           <div v-else class="text-banner-r mr-auto">
             <span class="text-banner-b">이벤트 참여 완료!</span><br />
-            <span>결과 발표를 기다리찌오!</span>
+            <span>더 높은 점수를 받고 다시 도전하찌오!</span>
           </div>
           <img :src="giftZzio" alt="gift zzio" />
           <img
