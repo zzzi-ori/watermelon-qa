@@ -38,10 +38,12 @@
           <img :src="replay" alt="다시하기" />
         </ZRoundButton>
       </div>
-      <rank-banner
-        v-if="isEventOpen()"
-        @click="$emit('rank')"
-      />
+      <div class="px-6">
+        <rank-banner
+          v-if="isEventOpen()"
+          @click="$emit('rank')"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <img
-    class="max-w-72"
+    class="w-full rounded-[8px]"
     :src="rankBanner"
     alt="실시간 랭킹 바로가기"
   />
