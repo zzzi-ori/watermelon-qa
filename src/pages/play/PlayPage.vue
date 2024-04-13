@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import NextBlock from './_components/NextBlock.vue'
-import GameOver from './_components/GameOver.vue'
+import GameOver from './game-over/GameOver.vue'
 import Ground from './_components/Ground.vue'
 import Score from './_components/Score.vue'
 import { usePlayer } from '../../hooks/use-player.ts'
