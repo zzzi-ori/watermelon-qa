@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute inset-0 flex flex-col items-center justify-center z-50 bg-transBlack-50 px-6 py-6 overflow-y-scroll"
+    class="absolute inset-0 flex flex-col z-50 bg-transBlack-50 px-6 py-6 overflow-y-scroll"
   >
     <div
-      class="w-full bg-white flex flex-col gap-5 pt-10 pb-6 justify-center items-center rounded-2xl border-2 border-black"
+      class="w-full bg-white flex flex-col gap-5 pt-10 pb-6 m-auto justify-center items-center rounded-2xl border-2 border-black"
     >
       <img :src="gameOver" alt="game over" />
       <div class="text-body-b px-2 border-2 rounded">
