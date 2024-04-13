@@ -1,19 +1,19 @@
 <template>
   <button :class="style({disabled, color})" :disabled="disabled">
-    <LeftLine/>
-    <slot/>
-    <RightLine/>
+    <LeftLine />
+    <slot />
+    <RightLine />
   </button>
 </template>
 <script setup lang="ts">
-import {cva} from 'class-variance-authority'
-import {PropType} from 'vue'
+import { cva } from 'class-variance-authority'
+import { PropType } from 'vue'
 import LeftLine from '../../components/button/_assets/LeftLine.vue'
 import RightLine from '../../components/button/_assets/RightLine.vue'
 
 defineProps({
-  disabled: {type: Boolean, default: false},
-  color: {type: String as PropType<ButtonColor>, default: 'primary'}
+  disabled: { type: Boolean, default: false },
+  color: { type: String as PropType<ButtonColor>, default: 'primary' },
 })
 
 type ButtonColor = 'primary' | 'secondary'
@@ -21,18 +21,18 @@ type ButtonColor = 'primary' | 'secondary'
 const style = cva(
   [
     'text-black text-body-b',
-    'flex justify-between w-full rounded-[8px] px-[12px] py-[11px] border-2'
+    'flex justify-between w-full rounded-[8px] px-[12px] py-[11px] border-2',
   ]
   , {
     variants: {
       disabled: {
-        true: 'border-dark-green text-dark-green bg-green',
-        false: 'border-black'
+        true: 'border-transBlack-15 text-transBlack-15 bg-transBlack-10',
+        false: 'border-black',
       },
       color: {
         'primary': 'bg-[#FCBF31]',
-        'secondary': 'bg-green'
-      }
+        'secondary': 'bg-green',
+      },
     },
   })
 </script>
