@@ -47,7 +47,7 @@ const style = cva(
     variants: {
       filled: {
         true: '',
-        false: 'border-dark-green',
+        false: 'border-transBlack-15',
       },
       disabled: {
         true: 'bg-[#D4FFE6] border-dark-green text-dark-gray',
@@ -57,3 +57,15 @@ const style = cva(
   },
 )
 </script>
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
