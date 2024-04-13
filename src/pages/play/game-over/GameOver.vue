@@ -26,6 +26,7 @@
         </div>
       </div>
       <event-drop-down
+        v-if="isEventOpen()"
         :nickname="nickname"
         :userId="userId"
       />
