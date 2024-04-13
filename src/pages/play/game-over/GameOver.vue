@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute inset-0 flex flex-col z-50 bg-transBlack-50 px-6 py-6 overflow-y-scroll"
+    class="absolute inset-0 flex flex-col z-50 bg-transBlack-50 px-6 py-6 overflow-y-scroll hide-scroll"
   >
     <div
       class="w-full bg-white flex flex-col gap-5 pt-10 pb-6 m-auto justify-center items-center rounded-2xl border-2 border-black"
@@ -95,3 +95,14 @@ onMounted(() => {
   }
 })
 </script>
+<style setup>
+.hide-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scroll::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}
+</style>
