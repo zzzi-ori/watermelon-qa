@@ -47,7 +47,7 @@ const style = cva(
     variants: {
       filled: {
         true: '',
-        false: 'border-dark-green',
+        false: 'border-transBlack-15',
       },
       disabled: {
         true: 'bg-[#D4FFE6] border-dark-green text-dark-gray',
