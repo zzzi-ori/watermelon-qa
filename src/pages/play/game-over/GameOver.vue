@@ -51,14 +51,9 @@ import replay from '@/assets/replay.svg'
 import home from '@/assets/home.svg'
 import gameOverZzio from '@/assets/game-over-zzio.svg'
 import ZRoundButton from '@/components/button/ZRoundButton.vue'
-import rankBanner from '@/assets/rank-banner.png'
 import coinSm from '@/assets/coin-sm.svg'
-import giftZzio from '@/assets/gift-zzio.svg'
-import info from '@/assets/info.svg'
-import { usePostEvent } from '@/requests/use/usePostEvent.ts'
-import eventTitle from '@/assets/event-title.svg'
 import { usePostRank } from '@/requests/use/usePostRank.ts'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { getGameId } from '@/utils/get-game-id.ts'
 import { isEventOpen } from '@/utils/check-event-open.ts'
 import { compressLog } from '@/utils/compress-log.ts'
@@ -88,14 +83,13 @@ const userId = computed(() => data?.value?.userId)
 
 onMounted(() => {
   // 이벤트 기간 지나지 않았을 경우 rank 등록
-  // todo: remove test code
-  // if (props.score && props.nickname && isEventOpen()) {
-  //   mutate({
-  //     score: props.score,
-  //     nickName: props.nickname,
-  //     gameId: getGameId(),
-  //     logData: compressLog(props.logData),
-  //   })
-  // }
+  if (props.score && props.nickname && isEventOpen()) {
+    mutate({
+      score: props.score,
+      nickName: props.nickname,
+      gameId: getGameId(),
+      logData: compressLog(props.logData),
+    })
+  }
 })
 </script>
