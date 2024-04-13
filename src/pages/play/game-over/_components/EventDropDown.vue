@@ -111,9 +111,9 @@ const togglePrivacyTerm = () => {
 }
 
 const onClickSubmit = () => {
-  // if (props.userId) {
-  //   mutateEvent({ userId: props.userId, phoneNumber: phoneNumber.value })
-  // }
+  if (props.userId) {
+    mutateEvent({ userId: props.userId, phoneNumber: phoneNumber.value })
+  }
 }
 
 </script>
